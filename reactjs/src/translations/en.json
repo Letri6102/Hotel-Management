@@ -1,4 +1,24 @@
 {
+    "homeheader":{
+        "specialty":"Hotel Specialty",
+        "searchhotel":"Find a hotel by speciality",
+        "hotel-facility": "Hotel facility",
+        "select-hotel": "Select Hotel",
+        "room": "Room",
+        "select-room": "Choose a good room",
+        "fee": "Special Offers",
+        "special-offer":"full tours",
+        "support":"Support"
+    },
+    "banner": {
+        "title1": "NỀN TẢNG CHẤT LƯỢNG",
+        "title2": "ĐEM ĐẾN NHỮNG TRẢI NGHIỆM TUYỆT VỜI",
+        "child1": "Tìm khách sạn",
+        "child2": "Tìm phòng",
+        "child3": "Tìm địa điểm",
+        "child4": "Tìm chuyến đi"
+    },
+
     "common": {
         "add": "Add",
         "edit": "Edit",
@@ -31,7 +51,7 @@
             "system-administrator": {
                 "header": "System Administrator",
                 "user-manage": "User manage",
-                "product-manage": "Package manage",
+                "user-redux": "Manage user using Redux",
                 "register-package-group-or-account": "Register service package for group/account"
             },
             "system-parameter": {

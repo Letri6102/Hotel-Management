@@ -1,21 +1,23 @@
 .login-background{
     height: 100vh;
-    background: linear-gradient(135deg, rgba(34,193,195,1) 0%, rgb(245, 244, 241) 100%);
-    
+    background: url('../../assets/images/login-background.jpg') center center no-repeat;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 
 
     .login-container{
-        max-width: 500px;
-        min-width: 300px;
-        height: 500px;
-        width: 400px;
+        max-width: 450px;
+        min-width: 200px;
+        height: 450px;
+        width: 350px;
         background-color: #fff;
         border-radius: 20px;
         margin: 0 auto;
         position: absolute;
         top: 0;
         bottom: 0;
-        left: 60%;
+        left: 70%;
         right: 0;
         margin: auto;
   
