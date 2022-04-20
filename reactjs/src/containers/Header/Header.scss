@@ -27,6 +27,9 @@
     display:flex;
     justify-content: flex-end !important; 
     align-items:center;
+    .welcome{
+        margin-right:10px;
+    }
     .language-vi{
         cursor: pointer;
         opacity: 0.2;
