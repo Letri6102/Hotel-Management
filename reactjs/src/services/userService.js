@@ -30,6 +30,18 @@ const getAllCodeService = (inputType) => {
   return axios.get(`api/allcode?type=${inputType}`);
 };
 
+const getTopRoomHomeService = (limit) => {
+  return axios.get(`api/top-room-home?limit=${limit}`);
+};
+
+const getAllRooms = () => {
+  return axios.get(`api/get-all-rooms`);
+};
+
+const saveDetailRoomService = (data) => {
+  return axios.post("api/save-info-rooms", data);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -37,4 +49,7 @@ export {
   deleteUserService,
   editUserService,
   getAllCodeService,
+  getTopRoomHomeService,
+  getAllRooms,
+  saveDetailRoomService,
 };

@@ -1,95 +1,99 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import {FormattedMessage} from 'react-intl';
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
+import * as actions from "../../../store/actions";
+import { LANGUAGES } from "../../../utils";
 import Slider from "react-slick";
+import { isBuffer } from "lodash";
 
-
+//Room not Hotel
 class FeatureHotel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      arrRooms: [],
+    };
+  }
 
-    render() {
-        return (
-           <div className='section-share section-feature-hotel'>
-                <div className='section-container'>
-                    <div className='section-header'>
-                        <span className='title-section'>Khách sạn nổi bật tuần qua</span>
-                        <button className='btn-section'>Xem thêm</button>
-                    </div>
-                    <div className='section-body'>
-                        <Slider {...this.props.settings}>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-image section-feature-hotel'/>
-                                    </div>
-                                        <div className='position text-center'>
-                                            <div>Hệ thống nhà hàng khách sạn </div>
-                                            <div>Nha Trang</div>
-                                        </div>
-                                </div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-image section-feature-hotel'/>
-                                    </div>
-                                        <div className='position text-center'>
-                                            <div>Hệ thống nhà hàng khách sạn </div>
-                                            <div>Nha Trang</div>
-                                        </div>
-                                </div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-image section-feature-hotel'/>
-                                    </div>
-                                        <div className='position text-center'>
-                                            <div>Hệ thống nhà hàng khách sạn </div>
-                                            <div>Nha Trang</div>
-                                        </div>
-                                </div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-image section-feature-hotel'/>
-                                    </div>
-                                        <div className='position text-center'>
-                                            <div>Hệ thống nhà hàng khách sạn </div>
-                                            <div>Nha Trang</div>
-                                        </div>
-                                </div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-image section-feature-hotel'/>
-                                    </div>
-                                        <div className='position text-center'>
-                                            <div>Hệ thống nhà hàng khách sạn </div>
-                                            <div>Nha Trang</div>
-                                        </div>
-                                </div>
-                            </div>
-                        </Slider>
-                    </div>
-                </div>
-           </div>
-        );
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.topRoomsRedux !== this.props.topRoomsRedux) {
+      this.setState({
+        arrRooms: this.props.topRoomsRedux,
+      });
     }
+  }
 
+  componentDidMount() {
+    this.props.loadTopRooms();
+  }
+
+  render() {
+    let arrRooms = this.state.arrRooms;
+    let { language } = this.props;
+    console.log("arrRooms", arrRooms);
+    return (
+      <div className="section-share section-feature-hotel">
+        <div className="section-container">
+          <div className="section-header">
+            <span className="title-section">
+              <FormattedMessage id="homeheader.top-room" />
+            </span>
+            <button className="btn-section">
+              <FormattedMessage id="homeheader.more-info" />
+            </button>
+          </div>
+          <div className="section-body">
+            <Slider {...this.props.settings}>
+              {arrRooms &&
+                arrRooms.length > 0 &&
+                arrRooms.map((item, index) => {
+                  let imageBase64 = "";
+                  if (item.image) {
+                    imageBase64 = new Buffer(item.image, "base64").toString(
+                      "binary"
+                    );
+                  }
+                  let nameVi = `${item.positionData.valueVi},${item.lastName} ${item.firstName}`;
+                  let nameEn = `${item.positionData.valueEn},${item.lastName} ${item.firstName}`;
+                  return (
+                    <div className="section-customize" key={index}>
+                      <div className="customize-border">
+                        <div className="outer-bg">
+                          <div
+                            className="bg-image section-feature-hotel"
+                            style={{ backgroundImage: `url(${imageBase64})` }}
+                          />
+                        </div>
+                        <div className="position text-center">
+                          <div>
+                            {language === LANGUAGES.VI ? nameVi : nameEn}{" "}
+                          </div>
+                          <div>Khách sạn 5 sao</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </Slider>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => {
-    return {
-        isLoggedIn: state.user.isLoggedIn
-    };
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.user.isLoggedIn,
+    language: state.app.language,
+    topRoomsRedux: state.admin.topRooms,
+  };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadTopRooms: () => dispatch(actions.fetchTopRooms()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeatureHotel);

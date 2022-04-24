@@ -6,6 +6,8 @@ const initialState = {
   roles: [],
   positions: [],
   users: [],
+  topRooms: [],
+  allRooms: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -60,6 +62,27 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case actionTypes.FETCH_TOP_ROOMS_SUCCESS:
+      state.topRooms = action.dataRooms;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_TOP_ROOMS_FAILED:
+      state.topRooms = [];
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_ALL_ROOMS_SUCCESS:
+      state.allRooms = action.dataR;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_ALL_ROOMS_FAILED:
+      state.allRooms = [];
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }

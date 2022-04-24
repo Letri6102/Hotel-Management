@@ -5,11 +5,11 @@ import {
   editUserService,
   deleteUserService,
   getAllUsers,
+  getTopRoomHomeService,
+  getAllRooms,
+  saveDetailRoomService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
-// export const fetchGenderStart = () => ({
-//   type: actionTypes.FETCH_GENDER_START,
-// });
 
 export const fetchGenderStart = () => {
   return async (dispatch, getState) => {
@@ -197,3 +197,78 @@ export const deleteUserSuccess = () => ({
 export const deleteUserFailed = () => ({
   type: actionTypes.DELETE_USER_FAILED,
 });
+
+export const fetchTopRooms = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getTopRoomHomeService("");
+      console.log("check res room", res);
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_TOP_ROOMS_SUCCESS,
+          dataRooms: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_TOP_ROOMS_FAILED,
+        });
+      }
+    } catch (e) {
+      dispatch({
+        type: actionTypes.FETCH_TOP_ROOMS_FAILED,
+      });
+      console.log("fetchTopRooms error", e);
+    }
+  };
+};
+
+export const fetchAllRooms = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllRooms();
+      console.log("check res ", res);
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_ALL_ROOMS_SUCCESS,
+          dataR: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_ALL_ROOMS_FAILED,
+        });
+      }
+    } catch (e) {
+      dispatch({
+        type: actionTypes.FETCH_ALL_ROOMS_FAILED,
+      });
+      console.log("fetchAllRooms error", e);
+    }
+  };
+};
+
+export const saveDetailRoom = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await saveDetailRoomService(data);
+
+      if (res && res.errCode === 0) {
+        toast.success("Save information success");
+        dispatch({
+          type: actionTypes.SAVE_DETAIL_ROOM_SUCCESS,
+        });
+      } else {
+        console.log("check res ", res);
+        toast.error("Save information room failed");
+        dispatch({
+          type: actionTypes.SAVE_DETAIL_ROOM_FAILED,
+        });
+      }
+    } catch (e) {
+      toast.error("Save information room failed");
+      dispatch({
+        type: actionTypes.SAVE_DETAIL_ROOM_FAILED,
+      });
+      console.log("saveDetailRoom error", e);
+    }
+  };
+};

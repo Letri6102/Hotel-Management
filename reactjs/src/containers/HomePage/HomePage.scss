@@ -66,8 +66,9 @@
                     background-image: url('../../assets/images/hotel-room1.jpg');
                 }
 
+                //room not hotel
                 &.section-feature-hotel{
-                    background-image: url('../../assets/images/hotel-room2.jpg');
+                    // background-image: url('../../assets/images/hotel-room2.jpg');
                     width: 120px;
                     height: 120px;
                     border-radius: 50%;
@@ -79,6 +80,10 @@
             }   
         }
     }
+}
+
+.slick-disabled{
+    display: none !important;
 }
 
 .section-share{

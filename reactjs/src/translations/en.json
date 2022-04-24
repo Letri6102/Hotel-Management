@@ -9,7 +9,9 @@
         "fee": "Special Offers",
         "special-offer":"full tours",
         "support":"Support",
-        "welcome":"Welcome, "
+        "welcome":"Welcome, ",
+        "top-room":"Last week's top room",
+        "more-info":"More infor"
     },
     "banner": {
         "title1": "BASE ON QUALITY",
