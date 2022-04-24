@@ -123,6 +123,8 @@ let createNewUser = (data) => {
         phoneNumber: data.phoneNumber,
         gender: data.gender === "1" ? true : false,
         roleId: data.roleId,
+        positionId: data.positionId,
+        image: data.avatar,
       });
       resolve({
         errCode: 0,
@@ -170,14 +172,17 @@ let updateUserData = (data) => {
         raw: false,
       });
       if (user) {
-        (user.firstName = data.firstName),
-          (user.lastName = data.lastName),
-          (user.address = data.address),
-          (user.phoneNumber = data.phoneNumber),
-          (user.gender = data.gender),
-          (user.roleId = data.roleId),
-          (user.positionId = data.positionId),
-          await user.save();
+        user.firstName = data.firstName;
+        user.lastName = data.lastName;
+        user.address = data.address;
+        user.phoneNumber = data.phoneNumber;
+        user.gender = data.gender;
+        user.roleId = data.roleId;
+        user.positionId = data.positionId;
+        if (data.avatar) {
+          user.image = data.avatar;
+        }
+        await user.save();
         resolve({
           errCode: 0,
           errMessage: "Update user data successfully",
