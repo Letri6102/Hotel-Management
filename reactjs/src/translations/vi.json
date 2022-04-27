@@ -42,7 +42,11 @@
             "manage-admin": "Quản lý Admin",
             "specialty": "Hạng phòng",
             "branch": "Chi nhánh",
-            "handbook": "Cẩm nang"
+            "handbook": "Cẩm nang",
+            "manage-room":"Quản lý phòng"
+        },
+        "room":{
+            "manage-schedule": "Quản lý lịch đặt phòng"
         }
     },
     "manage-user":{
@@ -65,5 +69,11 @@
         "imageUpload":"Tải ảnh",
         "save":"Lưu thông tin",
         "edit":"Sửa thông tin"
+    },
+    "manage-schedule":{
+        "title":"Quản lý lịch đặt phòng",
+        "choose-room":"Chọn phòng",
+        "choose-date":"Chọn ngày nhận phòng",
+        "save":"Lưu thông tin"
     }
 }

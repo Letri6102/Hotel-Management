@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import * as actions from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
 import Slider from "react-slick";
-import { isBuffer } from "lodash";
+import { withRouter } from "react-router";
 
 //Room not Hotel
 class FeatureHotel extends Component {
@@ -26,6 +26,12 @@ class FeatureHotel extends Component {
   componentDidMount() {
     this.props.loadTopRooms();
   }
+
+  handleViewDetailRoom = (room) => {
+    if (this.props.history) {
+      this.props.history.push(`/detail-room/${room.id}`);
+    }
+  };
 
   render() {
     let arrRooms = this.state.arrRooms;
@@ -96,4 +102,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeatureHotel);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(FeatureHotel)
+);

@@ -42,7 +42,11 @@
             "manage-admin": "Manage admin",
             "specialty": "Specialty",
             "branch": "Branch",
-            "handbook": "Handbook"
+            "handbook": "Handbook",
+            "manage-room": "Manage room"
+        },
+        "room":{
+            "manage-schedule": "Manage Room's schedule"
         }
     },
     "manage-user":{
@@ -65,5 +69,11 @@
         "imageUpload":"Upload",
         "save":"Save user",
         "edit":"Edit user"
+    },
+    "manage-schedule":{
+        "title":"Manege room's schedule",
+        "choose-room":"Choose room",
+        "choose-date":"Choose date",
+        "save":"Save"
     }
 }

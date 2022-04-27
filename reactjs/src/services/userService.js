@@ -42,6 +42,14 @@ const saveDetailRoomService = (data) => {
   return axios.post("api/save-info-rooms", data);
 };
 
+const getDetailInforRooms = (inputId) => {
+  return axios.get(`api/get-detail-room-by-id?id=${inputId}`);
+};
+
+const saveBulkScheduleRoom = (data) => {
+  return axios.post("api/bulk-create-schedule", data);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -52,4 +60,6 @@ export {
   getTopRoomHomeService,
   getAllRooms,
   saveDetailRoomService,
+  getDetailInforRooms,
+  saveBulkScheduleRoom,
 };

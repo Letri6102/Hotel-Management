@@ -25,7 +25,10 @@ export const adminMenu = [
         name: "menu.admin.manage-room",
         link: "/system/manage-room",
       },
-      // { name: 'menu.system.system-parameter.header', link: '/system/system-parameter' },
+      {
+        name: "menu.room.manage-schedule",
+        link: "/room/manage-schedule",
+      },
     ],
   },
   {
@@ -55,6 +58,18 @@ export const adminMenu = [
       {
         name: "menu.admin.manage-handbook",
         link: "/system/manage-handbook",
+      },
+    ],
+  },
+];
+
+export const roomMenu = [
+  {
+    name: "menu.admin.manage-user",
+    menus: [
+      {
+        name: "menu.room.manage-schedule",
+        link: "/room/manage-schedule",
       },
     ],
   },

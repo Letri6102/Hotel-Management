@@ -8,6 +8,8 @@ import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import "./ManageRoom.scss";
 import Select from "react-select";
+import { CRUD_ACTIONS, LANGUAGE } from "../../../utils";
+import { getDetailInforRooms } from "../../../services/userService";
 
 const mdParser = new MarkdownIt();
 
@@ -20,6 +22,7 @@ class ManageRoom extends Component {
       selectedOption: "",
       description: "",
       listRooms: [],
+      hasOldData: false,
     };
   }
 
@@ -66,13 +69,36 @@ class ManageRoom extends Component {
   };
 
   handleSaveContentMarkdown = () => {
-    console.log("check state", this.state);
+    let { hasOldData } = this.state;
     this.props.saveDetailRoom({
       contentHTML: this.state.contentHTML,
       contentMarkdown: this.state.contentMarkdown,
       description: this.state.description,
       roomId: this.state.selectedOption.value,
+      action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
     });
+  };
+
+  handleChangeSelect = async (selectedOption) => {
+    this.setState({ selectedOption });
+
+    let res = await getDetailInforRooms(selectedOption.value);
+    if (res && res.errCode === 0 && res.data && res.data.Markdown) {
+      let markdown = res.data.Markdown;
+      this.setState({
+        contentHTML: markdown.contentHTML,
+        contentMarkdown: markdown.contentMarkdown,
+        description: markdown.description,
+        hasOldData: true,
+      });
+    } else {
+      this.setState({
+        contentHTML: "",
+        contentMarkdown: "",
+        description: "",
+        hasOldData: false,
+      });
+    }
   };
 
   handleOnChangeDesc = (event) => {
@@ -81,12 +107,8 @@ class ManageRoom extends Component {
     });
   };
 
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption });
-  };
-
   render() {
-    console.log("check state", this.state);
+    let { hasOldData } = this.state;
     return (
       <div className="manage-room-container">
         <div className="manage-room-title ">Tạo thêm thông tin phòng</div>
@@ -95,7 +117,7 @@ class ManageRoom extends Component {
             <label>Chọn phòng </label>
             <Select
               value={this.state.selectedOption}
-              onChange={this.handleChange}
+              onChange={this.handleChangeSelect}
               options={this.state.listRooms}
             />
           </div>
@@ -116,13 +138,20 @@ class ManageRoom extends Component {
             style={{ height: "500px" }}
             renderHTML={(text) => mdParser.render(text)}
             onChange={this.handleEditorChange}
+            value={this.state.contentMarkdown}
           />
         </div>
         <button
           onClick={() => this.handleSaveContentMarkdown()}
-          className="save-content-room"
+          className={
+            hasOldData === true ? "save-content-room" : "create-content-room"
+          }
         >
-          Lưu thông tin
+          {hasOldData === true ? (
+            <span>Lưu thông tin</span>
+          ) : (
+            <soan>Tạo thông tin</soan>
+          )}
         </button>
       </div>
     );
@@ -139,7 +168,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     //fire event
-    fetchAllRooms: (id) => dispatch(actions.fetchAllRooms()),
+    fetchAllRooms: () => dispatch(actions.fetchAllRooms()),
     saveDetailRoom: (data) => dispatch(actions.saveDetailRoom(data)),
   };
 };

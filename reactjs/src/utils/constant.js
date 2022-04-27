@@ -4,6 +4,7 @@ export const path = {
   LOGIN: "/login",
   LOG_OUT: "/logout",
   SYSTEM: "/system",
+  DETAIL_ROOM: "/detail-room/:id",
 };
 
 export const LANGUAGES = {
@@ -31,4 +32,10 @@ export const dateFormat = {
 export const YesNoObj = {
   YES: "Y",
   NO: "N",
+};
+
+export const USER_ROLE = {
+  ADMIN: "R1",
+  ROOM: "R2",
+  CUSTOMER: "R3",
 };

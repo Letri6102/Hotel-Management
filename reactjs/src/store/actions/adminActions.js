@@ -83,6 +83,8 @@ export const fetchAllUsersStart = () => {
   return async (dispatch, getState) => {
     try {
       let res = await getAllUsers("ALL");
+      let res1 = await getTopRoomHomeService("");
+      console.log("res1", res1);
       if (res && res.errCode === 0) {
         dispatch(fetchAllUsersSuccess(res.users.reverse()));
       } else {
@@ -96,6 +98,14 @@ export const fetchAllUsersStart = () => {
     }
   };
 };
+export const fetchAllUsersSuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_USERS_SUCCESS,
+  users: data,
+});
+
+export const fetchAllUsersFailed = () => ({
+  type: actionTypes.FETCH_ALL_USERS_FAILED,
+});
 
 export const deleteAUser = (userId) => {
   return async (dispatch, getState) => {
@@ -181,15 +191,6 @@ export const saveUserFailed = () => ({
   type: actionTypes.CREATE_USER_FAILED,
 });
 
-export const fetchAllUsersSuccess = (data) => ({
-  type: actionTypes.FETCH_ALL_USERS_SUCCESS,
-  users: data,
-});
-
-export const fetchAllUsersFailed = () => ({
-  type: actionTypes.FETCH_ALL_USERS_FAILED,
-});
-
 export const deleteUserSuccess = () => ({
   type: actionTypes.DELETE_USER_SUCCESS,
 });
@@ -269,6 +270,29 @@ export const saveDetailRoom = (data) => {
         type: actionTypes.SAVE_DETAIL_ROOM_FAILED,
       });
       console.log("saveDetailRoom error", e);
+    }
+  };
+};
+
+export const fetchAllScheduleTime = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllCodeService("TIME");
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS,
+          dataTime: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED,
+        });
+      }
+    } catch (e) {
+      console.log("Err", e);
+      dispatch({
+        type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED,
+      });
     }
   };
 };
