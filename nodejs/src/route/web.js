@@ -27,6 +27,8 @@ let initWebRoutes = (app) => {
 
   router.post("/api/save-info-rooms", roomController.postInforRoom);
   router.get("/api/get-detail-room-by-id", roomController.getDetailRoomById);
+
+  router.post("/api/bulk-create-schedule", roomController.bulkCreateSchedule);
   return app.use("/", router);
 };
 

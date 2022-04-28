@@ -1,4 +1,8 @@
 import db from "../models/index";
+require("dotenv").config();
+import _ from "lodash";
+
+const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 
 let getTopRoomHome = (limitInput) => {
   return new Promise(async (resolve, reject) => {
@@ -62,19 +66,34 @@ let saveDetailInforRoom = (inputData) => {
       if (
         !inputData.roomId ||
         !inputData.contentHTML ||
-        !inputData.contentMarkdown
+        !inputData.contentMarkdown ||
+        !inputData.action
       ) {
         resolve({
           errCode: 1,
           message: "Please input all field",
         });
       } else {
-        await db.Markdown.create({
-          contentHTML: inputData.contentHTML,
-          contentMarkdown: inputData.contentMarkdown,
-          description: inputData.description,
-          roomId: inputData.roomId,
-        });
+        if (inputData.action === "CREATE") {
+          await db.Markdown.create({
+            contentHTML: inputData.contentHTML,
+            contentMarkdown: inputData.contentMarkdown,
+            description: inputData.description,
+            roomId: inputData.roomId,
+          });
+        } else if (inputData.action === "EDIT") {
+          let roomMarkdown = await db.Markdown.findOne({
+            where: { roomId: inputData.roomId },
+            raw: false,
+          });
+          if (roomMarkdown) {
+            roomMarkdown.contentHTML = inputData.contentHTML;
+            roomMarkdown.contentMarkdown = inputData.contentMarkdown;
+            roomMarkdown.description = inputData.description;
+            roomMarkdown.updateAt = new Date();
+            await roomMarkdown.save();
+          }
+        }
         resolve({
           errCode: 0,
           errMessage: "Save info success",
@@ -100,7 +119,7 @@ let getDetailRoomById = (inputId) => {
             id: inputId,
           },
           attributes: {
-            exclude: ["password", "image"],
+            exclude: ["password"],
           },
           include: [
             {
@@ -113,9 +132,13 @@ let getDetailRoomById = (inputId) => {
               attributes: ["valueEn", "valueVi"],
             },
           ],
-          raw: true,
+          raw: false,
           nest: true,
         });
+        if (data && data.image) {
+          data.image = new Buffer(data.image, "base64").toString("binary");
+        }
+        if (!data) data = {};
         resolve({
           errCode: 0,
           data: data,
@@ -127,9 +150,85 @@ let getDetailRoomById = (inputId) => {
   });
 };
 
+let bulkCreateSchedule = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.arrSchedule || !data.roomId || !data.formatedDate) {
+        resolve({
+          errCode: 1,
+          message: "Please input all field",
+        });
+      } else {
+        let schedule = data.arrSchedule;
+        if (schedule && schedule.length > 0) {
+          schedule = schedule.map((item) => {
+            item.maxNumber = MAX_NUMBER_SCHEDULE;
+            return item;
+          });
+        }
+        // console.log("check schedule", schedule);
+        // await db.Schedule.bulkCreate(schedule);
+        //get all existing data
+        let existing = await db.Schedule.findAll({
+          where: { roomId: data.roomId, date: data.formatedDate },
+          attributes: ["timeType", "date", "roomId", "maxNumber"],
+          raw: true,
+        });
+        //convert date
+        if (existing && existing.length > 0) {
+          existing = existing.map((item) => {
+            item.date = new Date(item.date).getTime();
+            return item;
+          });
+        }
+        //compare different
+        let toCreate = _.differenceWith(schedule, existing, (a, b) => {
+          return a.timeType === b.timeType && a.date === b.date;
+        });
+        //create data
+        if (toCreate && toCreate.length > 0) {
+          await db.Schedule.bulkCreate(toCreate);
+        }
+        resolve({
+          errCode: 0,
+          errMessage: "OK",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let getScheduleByDate = (roomId, date) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!roomId || !date) {
+        resolve({
+          errCode: 1,
+          errMessage: "Please input all field",
+        });
+      } else {
+        let dataSchedule = await db.Schedule.findAll({
+          where: {
+            roomId: roomId,
+            date: date,
+          },
+        });
+        if (!dataSchedule) {
+          dataSchedule = [];
+        }
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getTopRoomHome: getTopRoomHome,
   getAllRooms: getAllRooms,
   saveDetailInforRoom: saveDetailInforRoom,
   getDetailRoomById: getDetailRoomById,
+  bulkCreateSchedule: bulkCreateSchedule,
+  getScheduleByDate: getScheduleByDate,
 };
