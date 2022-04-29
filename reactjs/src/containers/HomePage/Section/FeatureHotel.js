@@ -15,7 +15,7 @@ class FeatureHotel extends Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  async componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.topRoomsRedux !== this.props.topRoomsRedux) {
       this.setState({
         arrRooms: this.props.topRoomsRedux,
@@ -59,8 +59,8 @@ class FeatureHotel extends Component {
                       "binary"
                     );
                   }
-                  let nameVi = `${item.positionData.valueVi},${item.lastName} ${item.firstName}`;
-                  let nameEn = `${item.positionData.valueEn},${item.lastName} ${item.firstName}`;
+                  let nameVi = ` ${item.firstName}, ${item.lastName}`;
+                  let nameEn = `${item.lastName}, ${item.firstName}`;
                   return (
                     <div className="section-customize" key={index}>
                       <div className="customize-border">
@@ -74,7 +74,6 @@ class FeatureHotel extends Component {
                           <div>
                             {language === LANGUAGES.VI ? nameVi : nameEn}{" "}
                           </div>
-                          <div>Khách sạn 5 sao</div>
                         </div>
                       </div>
                     </div>

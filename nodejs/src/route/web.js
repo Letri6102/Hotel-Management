@@ -29,6 +29,14 @@ let initWebRoutes = (app) => {
   router.get("/api/get-detail-room-by-id", roomController.getDetailRoomById);
 
   router.post("/api/bulk-create-schedule", roomController.bulkCreateSchedule);
+  router.get(
+    "/api/get-schedule-room-by-date",
+    roomController.getScheduleByDate
+  );
+  router.get(
+    "/api/get-extra-infor-room-by-id",
+    roomController.getExtraInforRoomById
+  );
   return app.use("/", router);
 };
 

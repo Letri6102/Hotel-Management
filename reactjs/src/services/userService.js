@@ -50,6 +50,14 @@ const saveBulkScheduleRoom = (data) => {
   return axios.post("api/bulk-create-schedule", data);
 };
 
+const getScheduleRoomByDate = (roomId, data) => {
+  return axios.get(
+    `api/get-schedule-room-by-date?roomId=${roomId}&date=${data}`
+  );
+};
+const getExtaInforRoomById = (roomId) => {
+  return axios.get(`api/get-extra-infor-room-by-id?roomId=${roomId}`);
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -62,4 +70,6 @@ export {
   saveDetailRoomService,
   getDetailInforRooms,
   saveBulkScheduleRoom,
+  getScheduleRoomByDate,
+  getExtaInforRoomById,
 };

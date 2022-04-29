@@ -9,6 +9,7 @@ const initialState = {
   topRooms: [],
   allRooms: [],
   allScheduleTime: [],
+  allRequiredRoomInfor: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -90,6 +91,16 @@ const adminReducer = (state = initialState, action) => {
       };
     case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED:
       state.allScheduleTime = [];
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_REQUIRED_ROOM_INFOR_SUCCESS:
+      state.allRequiredRoomInfor = action.data;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_REQUIRED_ROOM_INFOR_FAILED:
+      state.allRequiredRoomInfor = [];
       return {
         ...state,
       };

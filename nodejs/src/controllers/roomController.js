@@ -3,7 +3,6 @@ import roomService from "../services/roomService";
 let getTopRoomHome = async (req, res) => {
   let limit = req.query.limit || 10;
   // if (!limit) limit = 10;
-  console.log("limit", limit);
   try {
     let response = await roomService.getTopRoomHome(+limit);
     return res.status(200).json(response);
@@ -83,6 +82,19 @@ let getScheduleByDate = async (req, res) => {
   }
 };
 
+let getExtraInforRoomById = async (req, res) => {
+  try {
+    let info = await roomService.getExtraInforRoomById(req.query.roomId);
+    return res.status(200).json(info);
+  } catch (e) {
+    console.log(e);
+    return res.status(200).json({
+      errCode: -1,
+      message: "Error from server...",
+    });
+  }
+};
+
 module.exports = {
   getTopRoomHome: getTopRoomHome,
   getAllRooms: getAllRooms,
@@ -90,4 +102,5 @@ module.exports = {
   getDetailRoomById: getDetailRoomById,
   bulkCreateSchedule: bulkCreateSchedule,
   getScheduleByDate: getScheduleByDate,
+  getExtraInforRoomById: getExtraInforRoomById,
 };

@@ -1,8 +1,6 @@
 .detail-room-container {
  height: 550px;
 
-
-
  .intro-room{
      display: flex;
     margin: 0 100px;
@@ -30,6 +28,22 @@
          .down{
              padding-top: 10px;
          }
+     }
+ }
+
+ .schedule-room{
+     margin: 0 100px;
+     display: flex;
+     padding: 10px 0;
+     min-height: 200px;
+    //  border: 1px solid red;
+
+     .content-left{
+         width: 50%;
+     }
+
+     .content-right{
+         width: 50%;
      }
  }
  .detail-infor-room{

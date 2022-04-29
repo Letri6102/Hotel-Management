@@ -5,12 +5,15 @@ import { connect } from "react-redux";
 import { LANGUAGES } from "../../../utils/constant";
 import { getDetailInforRooms } from "../../../services/userService";
 import "./DetailRoom.scss";
+import RoomSchedule from "./RoomSchedule";
+import RoomExtraInfor from "./RoomExtraInfor";
 
 class DetailRoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
       detailRoom: {},
+      currentRoomId: -1,
     };
   }
 
@@ -21,6 +24,10 @@ class DetailRoom extends Component {
       this.props.match.params.id
     ) {
       let id = this.props.match.params.id;
+      this.setState({
+        currentRoomId: id,
+      });
+
       let res = await getDetailInforRooms(id);
       if (res && res.errCode === 0) {
         this.setState({
@@ -37,8 +44,8 @@ class DetailRoom extends Component {
     let nameVi = "",
       nameEn = "";
     if (detailRoom && detailRoom.positionData) {
-      nameVi = `${detailRoom.positionData.valueVi} ${detailRoom.lastName} ${detailRoom.firstName}`;
-      nameEn = `${detailRoom.positionData.valueEn} ${detailRoom.lastName} ${detailRoom.firstName}`;
+      nameVi = ` ${detailRoom.lastName} ${detailRoom.firstName}`;
+      nameEn = ` ${detailRoom.lastName} ${detailRoom.firstName}`;
     }
     return (
       <>
@@ -66,7 +73,14 @@ class DetailRoom extends Component {
               </div>
             </div>
           </div>
-          <div className="schedule-room"></div>
+          <div className="schedule-room">
+            <div className="content-left">
+              <RoomSchedule roomIdFromParent={this.state.currentRoomId} />
+            </div>
+            <div className="content-right">
+              <RoomExtraInfor roomIdFromParent={this.state.currentRoomId} />
+            </div>
+          </div>
           <div className="detail-infor-room">
             {detailRoom &&
               detailRoom.Markdown &&

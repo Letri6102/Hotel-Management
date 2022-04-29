@@ -75,5 +75,35 @@
         "choose-room":"Chọn phòng",
         "choose-date":"Chọn ngày nhận phòng",
         "save":"Lưu thông tin"
+    },
+    "customer":{
+        "detail-room":{
+            "schedule":"Lịch đặt phòng",
+            "no-schedule":"Phòng này hiện đang có người đặt trong thời gian này, vui lòng chọn thời gian khác",
+            "choose":"Chọn",
+            "book-free":" và đặt phòng (miễn phí)"
+        },
+        "extra-infor-room":{
+            "text-address":"Địa chỉ",
+            "price":"Giá phòng",
+            "detail":"Xem chi tiết",
+            "payment":"Quý khách có thể thanh toán chi phí bằng hình thức: ",
+            "hide-price":"Ẩn bảng giá"
+        }
+    },
+    "admin":{
+        "manage-room":{
+            "title":"Quản lý thông tin phòng khách sạn",
+            "select-room":"Chọn phòng",
+            "intro":"Thông tin giới thiệu",
+            "choose-price":"Giá phòng",
+            "payment":"Phương thức thanh toán",
+            "province":"Tỉnh/Thành phố",
+            "nameHotel":"Tên khách sạn",
+            "addressHotel":"Địa chỉ khách sạn",
+            "note":"Ghi chú",
+            "save":"Lưu thông tin",
+            "add":"Thêm thông tin phòng"
+        }
     }
 }

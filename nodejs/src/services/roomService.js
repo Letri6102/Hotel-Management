@@ -10,7 +10,7 @@ let getTopRoomHome = (limitInput) => {
       let users = await db.User.findAll({
         limit: limitInput,
         where: { roleId: "R2" },
-        order: [["createdAt", "DESC"]],
+        // order: [["createdAt", "DESC"]],
         attributes: {
           exclude: ["password"],
         },
@@ -29,7 +29,6 @@ let getTopRoomHome = (limitInput) => {
         raw: true,
         nest: true,
       });
-
       resolve({
         errCode: 0,
         data: users,
@@ -45,7 +44,6 @@ let getAllRooms = () => {
     try {
       let rooms = await db.User.findAll({
         where: { roleId: "R2" },
-
         attributes: {
           exclude: ["password"],
         },
@@ -67,13 +65,19 @@ let saveDetailInforRoom = (inputData) => {
         !inputData.roomId ||
         !inputData.contentHTML ||
         !inputData.contentMarkdown ||
-        !inputData.action
+        !inputData.action ||
+        !inputData.selectedPrice ||
+        !inputData.selectedPayment ||
+        !inputData.selectedProvince ||
+        !inputData.nameHotel ||
+        !inputData.addressHotel
       ) {
         resolve({
           errCode: 1,
           message: "Please input all field",
         });
       } else {
+        //upsert to Markdown
         if (inputData.action === "CREATE") {
           await db.Markdown.create({
             contentHTML: inputData.contentHTML,
@@ -93,6 +97,34 @@ let saveDetailInforRoom = (inputData) => {
             roomMarkdown.updateAt = new Date();
             await roomMarkdown.save();
           }
+        }
+
+        //upsert to Room_infor table
+        let roomInfor = await db.Room_Infor.findOne({
+          where: { roomId: inputData.roomId },
+          raw: false,
+        });
+        if (roomInfor) {
+          //update
+          roomInfor.roomId = inputData.roomId;
+          roomInfor.priceId = inputData.selectedPrice;
+          roomInfor.paymentId = inputData.selectedPayment;
+          roomInfor.provinceId = inputData.selectedProvince;
+          roomInfor.nameHotel = inputData.nameHotel;
+          roomInfor.addressHotel = inputData.addressHotel;
+          roomInfor.note = inputData.note;
+          await roomInfor.save();
+        } else {
+          //create
+          await db.Room_Infor.create({
+            roomId: inputData.roomId,
+            priceId: inputData.selectedPrice,
+            paymentId: inputData.selectedPayment,
+            provinceId: inputData.selectedProvince,
+            nameHotel: inputData.nameHotel,
+            addressHotel: inputData.addressHotel,
+            note: inputData.note,
+          });
         }
         resolve({
           errCode: 0,
@@ -130,6 +162,29 @@ let getDetailRoomById = (inputId) => {
               model: db.Allcode,
               as: "positionData",
               attributes: ["valueEn", "valueVi"],
+            },
+            {
+              model: db.Room_Infor,
+              attributes: {
+                exclude: ["id", "roomId"],
+              },
+              include: [
+                {
+                  model: db.Allcode,
+                  as: "priceTypeData",
+                  attributes: ["valueEn", "valueVi"],
+                },
+                {
+                  model: db.Allcode,
+                  as: "paymentTypeData",
+                  attributes: ["valueEn", "valueVi"],
+                },
+                {
+                  model: db.Allcode,
+                  as: "provinceTypeData",
+                  attributes: ["valueEn", "valueVi"],
+                },
+              ],
             },
           ],
           raw: false,
@@ -174,16 +229,10 @@ let bulkCreateSchedule = (data) => {
           attributes: ["timeType", "date", "roomId", "maxNumber"],
           raw: true,
         });
-        //convert date
-        if (existing && existing.length > 0) {
-          existing = existing.map((item) => {
-            item.date = new Date(item.date).getTime();
-            return item;
-          });
-        }
+
         //compare different
         let toCreate = _.differenceWith(schedule, existing, (a, b) => {
-          return a.timeType === b.timeType && a.date === b.date;
+          return a.timeType === b.timeType && +a.date === +b.date;
         });
         //create data
         if (toCreate && toCreate.length > 0) {
@@ -214,13 +263,75 @@ let getScheduleByDate = (roomId, date) => {
             roomId: roomId,
             date: date,
           },
+          include: [
+            {
+              model: db.Allcode,
+              as: "timeTypeData",
+              attributes: ["valueEn", "valueVi"],
+            },
+          ],
+          raw: false,
+          nest: true,
         });
         if (!dataSchedule) {
           dataSchedule = [];
         }
+        resolve({
+          errCode: 0,
+          data: dataSchedule,
+        });
       }
     } catch (e) {
       reject(e);
+    }
+  });
+};
+
+let getExtraInforRoomById = (idInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!idInput) {
+        resolve({
+          errCode: 1,
+          errMessage: "Please input all field",
+        });
+      } else {
+        let data = await db.Room_Infor.findOne({
+          where: {
+            roomId: idInput,
+          },
+          attributes: {
+            exclude: ["id", "roomId"],
+          },
+          include: [
+            {
+              model: db.Allcode,
+              as: "priceTypeData",
+              attributes: ["valueEn", "valueVi"],
+            },
+            {
+              model: db.Allcode,
+              as: "paymentTypeData",
+              attributes: ["valueEn", "valueVi"],
+            },
+            {
+              model: db.Allcode,
+              as: "provinceTypeData",
+              attributes: ["valueEn", "valueVi"],
+            },
+          ],
+          raw: false,
+          nest: true,
+        });
+        if (!data) data = {};
+        resolve({
+          errCode: 0,
+          data: data,
+        });
+      }
+    } catch (e) {
+      reject(e);
+      console.log("error", e);
     }
   });
 };
@@ -231,4 +342,5 @@ module.exports = {
   getDetailRoomById: getDetailRoomById,
   bulkCreateSchedule: bulkCreateSchedule,
   getScheduleByDate: getScheduleByDate,
+  getExtraInforRoomById: getExtraInforRoomById,
 };

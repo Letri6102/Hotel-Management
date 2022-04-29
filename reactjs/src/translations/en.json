@@ -75,5 +75,13 @@
         "choose-room":"Choose room",
         "choose-date":"Choose date",
         "save":"Save"
+    },
+    "customer":{
+        "detail-room":{
+            "schedule":"Schedule room",
+            "no-schedule":"Phòng này hiện đang có người đặt trong thời gian này, vui lòng chọn thời gian khác",
+            "choose":"Choose",
+            "book-free":" và đặt phòng (miễn phí)"
+        }
     }
 }

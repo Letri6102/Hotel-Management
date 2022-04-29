@@ -25,7 +25,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.18.0"
+    "sequelize": "^6.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

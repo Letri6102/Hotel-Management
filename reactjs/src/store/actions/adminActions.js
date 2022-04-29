@@ -83,8 +83,6 @@ export const fetchAllUsersStart = () => {
   return async (dispatch, getState) => {
     try {
       let res = await getAllUsers("ALL");
-      let res1 = await getTopRoomHomeService("");
-      console.log("res1", res1);
       if (res && res.errCode === 0) {
         dispatch(fetchAllUsersSuccess(res.users.reverse()));
       } else {
@@ -296,3 +294,45 @@ export const fetchAllScheduleTime = () => {
     }
   };
 };
+
+export const getRequiredRoomInfor = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: actionTypes.FETCH_REQUIRED_ROOM_INFOR_START,
+      });
+      let resPrice = await getAllCodeService("PRICE");
+      let resPayment = await getAllCodeService("PAYMENT");
+      let resProvince = await getAllCodeService("PROVINCE");
+
+      if (
+        resPrice &&
+        resPrice.errCode === 0 &&
+        resPayment &&
+        resPayment.errCode === 0 &&
+        resProvince &&
+        resProvince.errCode === 0
+      ) {
+        let data = {
+          resPrice: resPrice.data,
+          resPayment: resPayment.data,
+          resProvince: resProvince.data,
+        };
+        dispatch(fetchRequiredRoomInforSuccess(data));
+      } else {
+        dispatch(fetchRequiredRoomInforFailed());
+      }
+    } catch (e) {
+      dispatch(fetchRequiredRoomInforFailed());
+      console.log("getRequiredRoomInfor error", e);
+    }
+  };
+};
+export const fetchRequiredRoomInforSuccess = (allRequiredData) => ({
+  type: actionTypes.FETCH_REQUIRED_ROOM_INFOR_SUCCESS,
+  data: allRequiredData,
+});
+
+export const fetchRequiredRoomInforFailed = () => ({
+  type: actionTypes.FETCH_REQUIRED_ROOM_INFOR_FAILED,
+});

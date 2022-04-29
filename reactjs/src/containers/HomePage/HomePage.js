@@ -27,7 +27,7 @@ class HomePage extends Component {
         <Specialty settings={settings} />
         <HotelBranch settings={settings} />
         <FeatureHotel settings={settings} />
-        <HandBook settings={settings} />
+        {/* <HandBook settings={settings} /> */}
         <About />
         <HomeFooter />
       </div>

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { LANGUAGES } from "../../../utils/constant";
+import { LANGUAGES } from "../../../utils";
 import * as actions from "../../../store/actions/index";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import "./ManageRoom.scss";
 import Select from "react-select";
-import { CRUD_ACTIONS, LANGUAGE } from "../../../utils";
+import { CRUD_ACTIONS } from "../../../utils";
 import { getDetailInforRooms } from "../../../services/userService";
 
 const mdParser = new MarkdownIt();
@@ -17,46 +17,119 @@ class ManageRoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //save to markdown table
       contentMarkdown: "",
       contentHTML: "",
       selectedOption: "",
       description: "",
       listRooms: [],
       hasOldData: false,
+
+      //save to room_infor table
+      listPrice: [],
+      listPayment: [],
+      listProvince: [],
+      selectedPrice: "",
+      selectedPayment: "",
+      selectedProvince: "",
+      nameHotel: "",
+      addressHotel: "",
+      note: "",
     };
   }
 
   componentDidMount() {
     this.props.fetchAllRooms();
+    this.props.getAllRequiredRoomInfor();
   }
 
-  buildDataInputSelect = (inputData) => {
+  buildDataInputSelect = (inputData, type) => {
     let result = [];
     let { language } = this.props;
     if (inputData && inputData.length > 0) {
-      inputData.map((item, index) => {
-        let object = {};
-        let labelVi = `${item.lastName} ${item.firstName}`;
-        let labelEn = `${item.firstName} ${item.lastName}`;
-        object.label = language === LANGUAGES.VI ? labelVi : labelEn;
-        object.value = item.id;
-        result.push(object);
-      });
+      if (type === "USERS") {
+        inputData.map((item, index) => {
+          let object = {};
+          let labelVi = `${item.lastName} ${item.firstName}`;
+          let labelEn = `${item.firstName} ${item.lastName}`;
+          object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+          object.value = item.id;
+          result.push(object);
+        });
+      }
+      if (type === "PRICE") {
+        inputData.map((item, index) => {
+          let object = {};
+          let labelVi = `${item.valueVi} VND`;
+          let labelEn = `${item.valueEn} USD`;
+          object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+          object.value = item.keyMap;
+          result.push(object);
+        });
+      }
+      if (type === "PAYMENT" || type === "PROVINCE") {
+        inputData.map((item, index) => {
+          let object = {};
+          let labelVi = `${item.valueVi}`;
+          let labelEn = `${item.valueEn}`;
+          object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+          object.value = item.keyMap;
+          result.push(object);
+        });
+      }
     }
     return result;
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.allRooms !== this.props.allRooms) {
-      let dataSelect = this.buildDataInputSelect(this.props.allRooms);
+      let dataSelect = this.buildDataInputSelect(this.props.allRooms, "USERS");
       this.setState({
         listRooms: dataSelect,
       });
     }
+
+    if (prevProps.allRequiredRoomInfor !== this.props.allRequiredRoomInfor) {
+      let { resPayment, resPrice, resProvince } =
+        this.props.allRequiredRoomInfor;
+
+      let dataSelectPrice = this.buildDataInputSelect(resPrice, "PRICE");
+      let dataSelectPayment = this.buildDataInputSelect(resPayment, "PAYMENT");
+      let dataSelectProvince = this.buildDataInputSelect(
+        resProvince,
+        "PROVINCE"
+      );
+
+      console.log(
+        "check data new",
+        dataSelectPrice,
+        dataSelectPayment,
+        dataSelectProvince
+      );
+
+      this.setState({
+        listPrice: dataSelectPrice,
+        listPayment: dataSelectPayment,
+        listProvince: dataSelectProvince,
+      });
+    }
+
     if (prevProps.language !== this.props.language) {
-      let dataSelect = this.buildDataInputSelect(this.props.allRooms);
+      let dataSelect = this.buildDataInputSelect(this.props.allRooms, "USERS");
+      let { resPayment, resPrice, resProvince } =
+        this.props.allRequiredRoomInfor;
+      let dataSelectPrice = this.buildDataInputSelect(resPrice, "PRICE");
+      let dataSelectPayment = this.buildDataInputSelect(resPayment, "PAYMENT");
+      let dataSelectProvince = this.buildDataInputSelect(
+        resProvince,
+        "PROVINCE"
+      );
+
       this.setState({
         listRooms: dataSelect,
+        listPrice: dataSelectPrice,
+        listPayment: dataSelectPayment,
+        listProvince: dataSelectProvince,
       });
     }
   }
@@ -76,20 +149,62 @@ class ManageRoom extends Component {
       description: this.state.description,
       roomId: this.state.selectedOption.value,
       action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
+
+      selectedPrice: this.state.selectedPrice.value,
+      selectedPayment: this.state.selectedPayment.value,
+      selectedProvince: this.state.selectedProvince.value,
+      nameHotel: this.state.nameHotel,
+      addressHotel: this.state.addressHotel,
+      note: this.state.note,
     });
   };
 
   handleChangeSelect = async (selectedOption) => {
     this.setState({ selectedOption });
-
+    let { listPayment, listPrice, listProvince } = this.state;
     let res = await getDetailInforRooms(selectedOption.value);
     if (res && res.errCode === 0 && res.data && res.data.Markdown) {
       let markdown = res.data.Markdown;
+
+      let addressHotel = "",
+        nameHotel = "",
+        note = "",
+        paymentId = "",
+        priceId = "",
+        provinceId = "",
+        selectedPayment = "",
+        selectedPrice = "",
+        selectedProvince = "";
+      if (res.data.Room_Infor) {
+        addressHotel = res.data.Room_Infor.addressHotel;
+        nameHotel = res.data.Room_Infor.nameHotel;
+        note = res.data.Room_Infor.note;
+        paymentId = res.data.Room_Infor.paymentId;
+        priceId = res.data.Room_Infor.priceId;
+        provinceId = res.data.Room_Infor.provinceId;
+
+        selectedPayment = listPayment.find((item) => {
+          return item && item.value === paymentId;
+        });
+        selectedPrice = listPrice.find((item) => {
+          return item && item.value === priceId;
+        });
+        selectedProvince = listProvince.find((item) => {
+          return item && item.value === provinceId;
+        });
+      }
+
       this.setState({
         contentHTML: markdown.contentHTML,
         contentMarkdown: markdown.contentMarkdown,
         description: markdown.description,
         hasOldData: true,
+        addressHotel: addressHotel,
+        nameHotel: nameHotel,
+        note: note,
+        selectedPayment: selectedPayment,
+        selectedPrice: selectedPrice,
+        selectedProvince: selectedProvince,
       });
     } else {
       this.setState({
@@ -97,8 +212,28 @@ class ManageRoom extends Component {
         contentMarkdown: "",
         description: "",
         hasOldData: false,
+        addressHotel: "",
+        nameHotel: "",
+        note: "",
       });
     }
+  };
+
+  handleChangeSelectRoomInfor = async (selectedOption, name) => {
+    let stateName = name.name;
+    let stateCopy = { ...this.state };
+    stateCopy[stateName] = selectedOption;
+    this.setState({
+      ...stateCopy,
+    });
+  };
+
+  handleOnChangeText = (event, id) => {
+    let stateCopy = { ...this.state };
+    stateCopy[id] = event.target.value;
+    this.setState({
+      ...stateCopy,
+    });
   };
 
   handleOnChangeDesc = (event) => {
@@ -111,26 +246,107 @@ class ManageRoom extends Component {
     let { hasOldData } = this.state;
     return (
       <div className="manage-room-container">
-        <div className="manage-room-title ">Tạo thêm thông tin phòng</div>
+        <div className="manage-room-title ">
+          <FormattedMessage id="admin.manage-room.title" />
+        </div>
         <div className="more-info">
           <div className="content-left form-group">
-            <label>Chọn phòng </label>
+            <label>
+              <FormattedMessage id="admin.manage-room.select-room" />{" "}
+            </label>
             <Select
               value={this.state.selectedOption}
               onChange={this.handleChangeSelect}
               options={this.state.listRooms}
+              placeholder={
+                <FormattedMessage id="admin.manage-room.select-room" />
+              }
             />
           </div>
           <div className="content-right">
-            <label>Thông tin giới thiệu: </label>
+            <label>
+              <FormattedMessage id="admin.manage-room.intro" />{" "}
+            </label>
             <textarea
               className="form-control"
               rows="4"
-              onChange={(event) => this.handleOnChangeDesc(event)}
+              onChange={(event) =>
+                this.handleOnChangeText(event, "description")
+              }
               value={this.state.description}
-            >
-              Text here!
-            </textarea>
+            ></textarea>
+          </div>
+        </div>
+        <div className="more-infor-extra row">
+          <div className="col-4 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-room.choose-price" />
+            </label>
+            <Select
+              value={this.state.selectedPrice}
+              onChange={this.handleChangeSelectRoomInfor}
+              options={this.state.listPrice}
+              placeholder={
+                <FormattedMessage id="admin.manage-room.choose-price" />
+              }
+              name="selectedPrice"
+            />
+          </div>
+          <div className="col-4 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-room.payment" />
+            </label>
+            <Select
+              value={this.state.selectedPayment}
+              onChange={this.handleChangeSelectRoomInfor}
+              options={this.state.listPayment}
+              placeholder={<FormattedMessage id="admin.manage-room.payment" />}
+              name="selectedPayment"
+            />
+          </div>
+          <div className="col-4 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-room.province" />
+            </label>
+            <Select
+              value={this.state.selectedProvince}
+              onChange={this.handleChangeSelectRoomInfor}
+              options={this.state.listProvince}
+              placeholder={<FormattedMessage id="admin.manage-room.province" />}
+              name="selectedProvince"
+            />
+          </div>
+          <div className="col-4 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-room.nameHotel" />
+            </label>
+            <input
+              className="form-control"
+              onChange={(event) => this.handleOnChangeText(event, "nameHotel")}
+              value={this.state.nameHotel}
+            />
+          </div>
+          <div className="col-4 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-room.addressHotel" />
+            </label>
+            <input
+              className="form-control"
+              onChange={(event) =>
+                this.handleOnChangeText(event, "addressHotel")
+              }
+              value={this.state.addressHotel}
+            />
+          </div>
+          <div className="col-4 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-room.note" />
+            </label>
+            <input
+              className="form-control"
+              onChange={(event) => this.handleOnChangeText(event, "note")}
+              value={this.state.note}
+            />
           </div>
         </div>
         <div className="manage-room-editor">
@@ -148,9 +364,13 @@ class ManageRoom extends Component {
           }
         >
           {hasOldData === true ? (
-            <span>Lưu thông tin</span>
+            <span>
+              <FormattedMessage id="admin.manage-room.save" />
+            </span>
           ) : (
-            <soan>Tạo thông tin</soan>
+            <soan>
+              <FormattedMessage id="admin.manage-room.add" />
+            </soan>
           )}
         </button>
       </div>
@@ -162,6 +382,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     allRooms: state.admin.allRooms,
+    allRequiredRoomInfor: state.admin.allRequiredRoomInfor,
   };
 };
 
@@ -170,6 +391,7 @@ const mapDispatchToProps = (dispatch) => {
     //fire event
     fetchAllRooms: () => dispatch(actions.fetchAllRooms()),
     saveDetailRoom: (data) => dispatch(actions.saveDetailRoom(data)),
+    getAllRequiredRoomInfor: () => dispatch(actions.getRequiredRoomInfor()),
   };
 };
 
