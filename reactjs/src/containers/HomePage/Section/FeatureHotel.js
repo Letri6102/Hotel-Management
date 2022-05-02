@@ -5,7 +5,7 @@ import * as actions from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
 import Slider from "react-slick";
 import { withRouter } from "react-router";
-
+import { Link } from "react-router-dom";
 //Room not Hotel
 class FeatureHotel extends Component {
   constructor(props) {
@@ -45,7 +45,9 @@ class FeatureHotel extends Component {
               <FormattedMessage id="homeheader.top-room" />
             </span>
             <button className="btn-section">
-              <FormattedMessage id="homeheader.more-info" />
+              <Link to={`detail-room/${43}`}>
+                <FormattedMessage id="homeheader.more-info" />
+              </Link>
             </button>
           </div>
           <div className="section-body">
@@ -63,19 +65,21 @@ class FeatureHotel extends Component {
                   let nameEn = `${item.lastName}, ${item.firstName}`;
                   return (
                     <div className="section-customize" key={index}>
-                      <div className="customize-border">
-                        <div className="outer-bg">
-                          <div
-                            className="bg-image section-feature-hotel"
-                            style={{ backgroundImage: `url(${imageBase64})` }}
-                          />
-                        </div>
-                        <div className="position text-center">
-                          <div>
-                            {language === LANGUAGES.VI ? nameVi : nameEn}{" "}
+                      <Link to={`detail-room/${43}`}>
+                        <div className="customize-border">
+                          <div className="outer-bg">
+                            <div
+                              className="bg-image section-feature-hotel"
+                              style={{ backgroundImage: `url(${imageBase64})` }}
+                            />
+                          </div>
+                          <div className="position text-center">
+                            <div>
+                              {language === LANGUAGES.VI ? nameVi : nameEn}{" "}
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </div>
                   );
                 })}

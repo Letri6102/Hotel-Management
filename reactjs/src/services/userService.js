@@ -58,6 +58,14 @@ const getScheduleRoomByDate = (roomId, data) => {
 const getExtaInforRoomById = (roomId) => {
   return axios.get(`api/get-extra-infor-room-by-id?roomId=${roomId}`);
 };
+
+const getProfileRoomById = (roomId) => {
+  return axios.get(`api/get-profile-room-by-id?roomId=${roomId}`);
+};
+
+const postCustomerBookAppointment = (data) => {
+  return axios.post("api/customer-book-appointment", data);
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -72,4 +80,6 @@ export {
   saveBulkScheduleRoom,
   getScheduleRoomByDate,
   getExtaInforRoomById,
+  getProfileRoomById,
+  postCustomerBookAppointment,
 };

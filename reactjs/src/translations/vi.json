@@ -37,7 +37,7 @@
         "admin":{
             "manage-user": "Quản lý người dùng",
             "crud": "CRUD",
-            "crud-redux": "CRUD using Redux",
+            "crud-redux": "Thêm mới người dùng",
             "manage-hotel": "Quản lý khách sạn",
             "manage-admin": "Quản lý Admin",
             "specialty": "Hạng phòng",
@@ -89,6 +89,20 @@
             "detail":"Xem chi tiết",
             "payment":"Quý khách có thể thanh toán chi phí bằng hình thức: ",
             "hide-price":"Ẩn bảng giá"
+        },
+        "booking-modal":{
+            "title":"Thông tin đặt phòng",
+            "fullName":"Họ và tên",
+            "phoneNumber":"Số điện thoại",
+            "email":"Địa chỉ Email",
+            "address":"Địa chỉ liên lạc",           
+            "birthday":"Ngày sinh",
+            "gender":"Giới tính",
+            "btnConfirm":"Xác nhận",
+            "btnCancel":"Hủy",
+            "priceBooking":"Miễn phí đặt phòng",
+            "price":"Giá phòng",
+            "number":"Số người"
         }
     },
     "admin":{

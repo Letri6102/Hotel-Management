@@ -95,6 +95,19 @@ let getExtraInforRoomById = async (req, res) => {
   }
 };
 
+let getProfileRoomById = async (req, res) => {
+  try {
+    let info = await roomService.getProfileRoomById(req.query.roomId);
+    return res.status(200).json(info);
+  } catch (e) {
+    console.log(e);
+    return res.status(200).json({
+      errCode: -1,
+      message: "Error from server...",
+    });
+  }
+};
+
 module.exports = {
   getTopRoomHome: getTopRoomHome,
   getAllRooms: getAllRooms,
@@ -103,4 +116,5 @@ module.exports = {
   bulkCreateSchedule: bulkCreateSchedule,
   getScheduleByDate: getScheduleByDate,
   getExtraInforRoomById: getExtraInforRoomById,
+  getProfileRoomById: getProfileRoomById,
 };
