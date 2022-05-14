@@ -269,6 +269,11 @@ let getScheduleByDate = (roomId, date) => {
               as: "timeTypeData",
               attributes: ["valueEn", "valueVi"],
             },
+            {
+              model: db.User,
+              as: "roomData",
+              attributes: ["firstName", "lastName"],
+            },
           ],
           raw: false,
           nest: true,
