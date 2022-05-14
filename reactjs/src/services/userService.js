@@ -66,6 +66,10 @@ const getProfileRoomById = (roomId) => {
 const postCustomerBookAppointment = (data) => {
   return axios.post("api/customer-book-appointment", data);
 };
+
+const postVerifyBookAppointment = (data) => {
+  return axios.post("api/verify-book-appointment", data);
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -82,4 +86,5 @@ export {
   getExtaInforRoomById,
   getProfileRoomById,
   postCustomerBookAppointment,
+  postVerifyBookAppointment,
 };

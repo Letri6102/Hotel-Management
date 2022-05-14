@@ -20,6 +20,7 @@ import HomePage from "./HomePage/HomePage";
 import CustomScrollbars from "../components/CustomScrollbars";
 import DetailRoom from "./Customer/Room/DetailRoom";
 import Room from "../routes/Room";
+import VerifyEmail from "./Customer/VerifyEmail";
 class App extends Component {
   handlePersistorState = () => {
     const { persistor } = this.props;
@@ -65,6 +66,10 @@ class App extends Component {
                   />
                   <Route path={path.HOMEPAGE} component={HomePage} />
                   <Route path={path.DETAIL_ROOM} component={DetailRoom} />
+                  <Route
+                    path={path.VERIFY_EMAIL_BOOKING}
+                    component={VerifyEmail}
+                  />
                 </Switch>
               </CustomScrollbars>
             </span>

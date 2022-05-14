@@ -11,6 +11,7 @@ import { LANGUAGES } from "../../../../utils";
 import Select from "react-select";
 import { postCustomerBookAppointment } from "../../../../services/userService";
 import { toast } from "react-toastify";
+import moment from "moment";
 class BookingModal extends Component {
   constructor(props) {
     super(props);
@@ -89,9 +90,42 @@ class BookingModal extends Component {
     });
   };
 
+  buildTimeBooking = (dataTime) => {
+    let { language } = this.props;
+    if (dataTime && !_.isEmpty(dataTime)) {
+      let time =
+        language === LANGUAGES.VI
+          ? dataTime.timeTypeData.valueVi
+          : dataTime.timeTypeData.valueEn;
+
+      let date =
+        language === LANGUAGES.VI
+          ? moment.unix(+dataTime.date / 1000).format("dddd-DD/MM/YYYY")
+          : moment
+              .unix(+dataTime.date / 1000)
+              .locale("en")
+              .format("ddd-MM/DD/YYYY");
+
+      return `${date} - ${time}`;
+    }
+  };
+
+  buildRoomName = (dataTime) => {
+    let { language } = this.props;
+    if (dataTime && !_.isEmpty(dataTime)) {
+      let name =
+        language === LANGUAGES.VI
+          ? `${dataTime.roomData.lastName} ${dataTime.roomData.firstName}`
+          : `${dataTime.roomData.firstName} ${dataTime.roomData.lastName}`;
+      return name;
+    }
+    return "";
+  };
+
   handleConfirmBooking = async () => {
     let date = new Date(this.state.birthday).getTime();
-
+    let timeString = this.buildTimeBooking(this.props.dataTime);
+    let roomName = this.buildRoomName(this.props.dataTime);
     let res = await postCustomerBookAppointment({
       fullName: this.state.fullName,
       phoneNumber: this.state.phoneNumber,
@@ -102,6 +136,9 @@ class BookingModal extends Component {
       selectedGender: this.state.selectedGender.value,
       roomId: this.state.roomId,
       timeType: this.state.timeType,
+      language: this.props.language,
+      timeString: timeString,
+      roomName: roomName,
     });
     if (res && res.errCode === 0) {
       toast.success("Booking a new room successfully");
@@ -116,7 +153,7 @@ class BookingModal extends Component {
     if (dataTime && !_.isEmpty(dataTime)) {
       roomId = dataTime.roomId;
     }
-
+    console.log("data", dataTime);
     return (
       <Modal
         isOpen={isOpenModal}
