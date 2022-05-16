@@ -35,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
   Room_Infor.init(
     {
       roomId: DataTypes.INTEGER,
+      // specialtyId: DataTypes.INTEGER,
+      // hotelId: DataTypes.INTEGER,
       priceId: DataTypes.STRING,
       provinceId: DataTypes.STRING,
       paymentId: DataTypes.STRING,

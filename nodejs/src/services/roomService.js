@@ -3,6 +3,35 @@ require("dotenv").config();
 import _ from "lodash";
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
+let checkRequiredField = (inputData) => {
+  let arrFields = [
+    "roomId",
+    "contentHTML",
+    "contentMarkdown",
+    "action",
+    "selectedPrice",
+    "selectedPayment",
+    "selectedProvince",
+    "nameHotel",
+    "addressHotel",
+    "note",
+    "specialtyId",
+  ];
+
+  let isValid = true;
+  let element = "";
+  for (let i = 0; i < arrFields.length; i++) {
+    if (!inputData[arrFields[i]]) {
+      isValid = false;
+      element = arrFields[i];
+      break;
+    }
+  }
+  return {
+    isValid: isValid,
+    element: element,
+  };
+};
 
 let getTopRoomHome = (limitInput) => {
   return new Promise(async (resolve, reject) => {
@@ -419,4 +448,5 @@ module.exports = {
   getScheduleByDate: getScheduleByDate,
   getExtraInforRoomById: getExtraInforRoomById,
   getProfileRoomById: getProfileRoomById,
+  checkRequiredField: checkRequiredField,
 };
