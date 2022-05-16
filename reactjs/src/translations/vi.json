@@ -70,6 +70,10 @@
         "save":"Lưu thông tin",
         "edit":"Sửa thông tin"
     },
+    "homepage":{
+        "specialty-poplular":"Các loại phòng phổ biến",
+        "more-infor":"Xem thêm"
+    },
     "manage-schedule":{
         "title":"Quản lý lịch đặt phòng",
         "choose-room":"Chọn phòng",
