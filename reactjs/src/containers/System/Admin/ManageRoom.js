@@ -29,12 +29,20 @@ class ManageRoom extends Component {
       listPrice: [],
       listPayment: [],
       listProvince: [],
+      listHotel: [],
+      listSpecialty: [],
+
       selectedPrice: "",
       selectedPayment: "",
       selectedProvince: "",
+      selectedHotel: "",
+      selectedSpecialty: "",
+
       nameHotel: "",
       addressHotel: "",
       note: "",
+      hotelId: "",
+      specialtyId: "",
     };
   }
 
@@ -77,6 +85,15 @@ class ManageRoom extends Component {
           result.push(object);
         });
       }
+
+      if (type === "SPECIALTY") {
+        inputData.map((item, index) => {
+          let object = {};
+          object.label = item.name;
+          object.value = item.id;
+          result.push(object);
+        });
+      }
     }
     return result;
   };
@@ -90,7 +107,7 @@ class ManageRoom extends Component {
     }
 
     if (prevProps.allRequiredRoomInfor !== this.props.allRequiredRoomInfor) {
-      let { resPayment, resPrice, resProvince } =
+      let { resPayment, resPrice, resProvince, resSpecialty } =
         this.props.allRequiredRoomInfor;
 
       let dataSelectPrice = this.buildDataInputSelect(resPrice, "PRICE");
@@ -99,18 +116,24 @@ class ManageRoom extends Component {
         resProvince,
         "PROVINCE"
       );
+      let dataSelectSpecialty = this.buildDataInputSelect(
+        resSpecialty,
+        "SPECIALTY"
+      );
 
       console.log(
         "check data new",
         dataSelectPrice,
         dataSelectPayment,
-        dataSelectProvince
+        dataSelectProvince,
+        dataSelectSpecialty
       );
 
       this.setState({
         listPrice: dataSelectPrice,
         listPayment: dataSelectPayment,
         listProvince: dataSelectProvince,
+        listSpecialty: dataSelectSpecialty,
       });
     }
 
@@ -156,12 +179,17 @@ class ManageRoom extends Component {
       nameHotel: this.state.nameHotel,
       addressHotel: this.state.addressHotel,
       note: this.state.note,
+      hotelId:
+        this.state.selectedHotel && this.state.selectedHotel.value
+          ? this.state.selectedHotel.value
+          : "",
+      specialtyId: this.state.selectedSpecialty.value,
     });
   };
 
   handleChangeSelect = async (selectedOption) => {
     this.setState({ selectedOption });
-    let { listPayment, listPrice, listProvince } = this.state;
+    let { listPayment, listPrice, listProvince, listSpecialty } = this.state;
     let res = await getDetailInforRooms(selectedOption.value);
     if (res && res.errCode === 0 && res.data && res.data.Markdown) {
       let markdown = res.data.Markdown;
@@ -172,9 +200,12 @@ class ManageRoom extends Component {
         paymentId = "",
         priceId = "",
         provinceId = "",
+        specialtyId = "",
         selectedPayment = "",
         selectedPrice = "",
-        selectedProvince = "";
+        selectedProvince = "",
+        selectedSpecialty = "";
+
       if (res.data.Room_Infor) {
         addressHotel = res.data.Room_Infor.addressHotel;
         nameHotel = res.data.Room_Infor.nameHotel;
@@ -182,6 +213,7 @@ class ManageRoom extends Component {
         paymentId = res.data.Room_Infor.paymentId;
         priceId = res.data.Room_Infor.priceId;
         provinceId = res.data.Room_Infor.provinceId;
+        specialtyId = res.data.Room_Infor.specialtyId;
 
         selectedPayment = listPayment.find((item) => {
           return item && item.value === paymentId;
@@ -191,6 +223,9 @@ class ManageRoom extends Component {
         });
         selectedProvince = listProvince.find((item) => {
           return item && item.value === provinceId;
+        });
+        selectedSpecialty = listSpecialty.find((item) => {
+          return item && item.value === specialtyId;
         });
       }
 
@@ -205,6 +240,7 @@ class ManageRoom extends Component {
         selectedPayment: selectedPayment,
         selectedPrice: selectedPrice,
         selectedProvince: selectedProvince,
+        selectedSpecialty: selectedSpecialty,
       });
     } else {
       this.setState({
@@ -215,6 +251,10 @@ class ManageRoom extends Component {
         addressHotel: "",
         nameHotel: "",
         note: "",
+        selectedPayment: "",
+        selectedPrice: "",
+        selectedProvince: "",
+        selectedSpecialty: "",
       });
     }
   };
@@ -349,9 +389,40 @@ class ManageRoom extends Component {
             />
           </div>
         </div>
+
+        <div className="row">
+          <div className="col-4 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-room.specialty" />
+            </label>
+            <Select
+              value={this.state.selectedSpecialty}
+              options={this.state.listSpecialty}
+              placeholder={
+                <FormattedMessage id="admin.manage-room.specialty" />
+              }
+              onChange={this.handleChangeSelectRoomInfor}
+              name="selectedSpecialty"
+            />
+          </div>
+          <div className="col-4 form-group">
+            <label>
+              <FormattedMessage id="admin.manage-room.select-hotel" />
+            </label>
+            <Select
+              value={this.state.selectedHotel}
+              options={this.state.listHotel}
+              placeholder={
+                <FormattedMessage id="admin.manage-room.select-hotel" />
+              }
+              onChange={this.handleChangeSelectRoomInfor}
+              name="selectedHotel"
+            />
+          </div>
+        </div>
         <div className="manage-room-editor">
           <MdEditor
-            style={{ height: "500px" }}
+            style={{ height: "300px" }}
             renderHTML={(text) => mdParser.render(text)}
             onChange={this.handleEditorChange}
             value={this.state.contentMarkdown}

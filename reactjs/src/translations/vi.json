@@ -121,7 +121,10 @@
             "addressHotel":"Địa chỉ khách sạn",
             "note":"Ghi chú",
             "save":"Lưu thông tin",
-            "add":"Thêm thông tin phòng"
+            "add":"Thêm thông tin phòng",
+            "note":"Ghi chú",
+            "specialty" : "Loại phòng",
+            "select-hotel":"Chọn khách sạn"
         }
     }
 }

@@ -69,15 +69,13 @@ class ProfileRoom extends Component {
     let { dataProfile } = this.state;
     let { language, isShowDescriptionRoom, dataTime } = this.props;
 
-    console.log("check state dataProfile ", this.state);
-    console.log("check datatime", dataTime.timeTypeData);
-    let x = this.renderTimeBooking(dataTime);
-    console.log("check x", x);
+    // console.log("check state dataProfile ", this.state);
+    // console.log("check datatime", dataTime.timeTypeData);
     let nameVi = "",
       nameEn = "";
     if (dataProfile && dataProfile.positionData) {
-      nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;
-      nameEn = `${dataProfile.positionData.valueEn}, ${dataProfile.lastName} ${dataProfile.firstName}`;
+      nameVi = ` ${dataProfile.lastName} ${dataProfile.firstName}`;
+      nameEn = ` ${dataProfile.lastName} ${dataProfile.firstName}`;
     }
     return (
       <div className="profile-room-container">

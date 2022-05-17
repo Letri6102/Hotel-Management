@@ -15,7 +15,16 @@ class RoomExtraInfor extends Component {
     };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    if (this.props.roomIdFromParent) {
+      let res = await getExtaInforRoomById(this.props.roomIdFromParent);
+      if (res && res.errCode === 0) {
+        this.setState({
+          extraInfor: res.data,
+        });
+      }
+    }
+  }
 
   async componentDidUpdate(prevProps, prevState) {
     let res = await getExtaInforRoomById(this.props.roomIdFromParent);

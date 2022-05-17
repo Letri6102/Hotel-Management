@@ -5,12 +5,121 @@ import { FormattedMessage } from "react-intl";
 class Footer extends Component {
   render() {
     return (
-      <div className="home-footer">
-        <p>
-          &copy; Copyright 2022 by TriLe.{" "}
-          <a href="#">More information. &#8594; Click here! &#8592; </a>
-        </p>
-      </div>
+      <footer class="footer">
+        <div class="grid footer_top">
+          <div class="grid_row">
+            <div class="grid_column-2-4">
+              <h3 class="footer_heading">Liên lạc với chúng tôi</h3>
+              <ul class="footer_list">
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    <i class="footer_item-icon fa-solid fa-location-dot"></i>{" "}
+                    117-119 Lý Chính Thắng, P. 7, Q. 3, TPHCM
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    <i class="footer_item-icon fa-solid fa-phone"></i> 0589 457
+                    896
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    <i class="footer_item-icon fa-solid fa-envelope"></i>
+                    info@mwchotel.com
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_column-2-4">
+              <h3 class="footer_heading">Chăm sóc khách hàng</h3>
+              <ul class="footer_list">
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Trung tâm hỗ trợ
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Cách đặt chỗ
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_column-2-4">
+              <h3 class="footer_heading">Sản phẩm</h3>
+              <ul class="footer_list">
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Khách sạn
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Biệt thự
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Căn hộ
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_column-2-4">
+              <h3 class="footer_heading">Theo dõi chúng tôi trên</h3>
+              <ul class="footer_list">
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    <i class="footer_item-icon fab fa-facebook"></i>Facebook
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    <i class="footer_item-icon fab fa-instagram"></i>Instagram
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    <i class="footer_item-icon fab fa-twitter"></i>Twitter
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_column-2-4">
+              <h3 class="footer_heading">Giới thiệu</h3>
+              <ul class="footer_list">
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Về chúng tôi
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Chính sách quyền riêng tư
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Điều khoản & Điều kiện
+                  </a>
+                </li>
+                <li class="footer_item">
+                  <a href="" class="footer_item-link">
+                    Tuyển dụng
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer_bottom">
+          <div class="grid">
+            <p class="footer_text">Copyright © 2022 MWC</p>
+          </div>
+        </div>
+      </footer>
     );
   }
 }
