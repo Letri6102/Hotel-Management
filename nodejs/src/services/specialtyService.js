@@ -52,7 +52,55 @@ let getAllSpecialty = () => {
   });
 };
 
+let getDetailSpecialtyById = (inputId, location) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!inputId || !location) {
+        resolve({
+          errCode: 1,
+          errMessage: "Missing parameters",
+        });
+      } else {
+        let data = await db.Specialty.findOne({
+          where: {
+            id: inputId,
+          },
+          attributes: ["descriptionHTML", "descriptionMarkdown"],
+        });
+        if (data) {
+          let roomSpecialty = [];
+          if (location === "ALL") {
+            roomSpecialty = await db.Room_Infor.findAll({
+              where: {
+                specialtyId: inputId,
+              },
+              attributes: ["roomId", "provinceId"],
+            });
+          } else {
+            //find location
+            roomSpecialty = await db.Room_Infor.findAll({
+              where: {
+                specialtyId: inputId,
+                provinceId: location,
+              },
+              attributes: ["roomId", "provinceId"],
+            });
+          }
+          data.roomSpecialty = roomSpecialty;
+        } else data = {};
+        resolve({
+          errCode: 0,
+          errMessage: "Success",
+          data,
+        });
+      }
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
 module.exports = {
   createSpecialty,
   getAllSpecialty,
+  getDetailSpecialtyById,
 };

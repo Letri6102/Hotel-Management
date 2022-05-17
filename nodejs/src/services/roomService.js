@@ -90,20 +90,11 @@ let getAllRooms = () => {
 let saveDetailInforRoom = (inputData) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (
-        !inputData.roomId ||
-        !inputData.contentHTML ||
-        !inputData.contentMarkdown ||
-        !inputData.action ||
-        !inputData.selectedPrice ||
-        !inputData.selectedPayment ||
-        !inputData.selectedProvince ||
-        !inputData.nameHotel ||
-        !inputData.addressHotel
-      ) {
+      let checkObj = checkRequiredField(inputData);
+      if (checkObj.isValid === false) {
         resolve({
           errCode: 1,
-          message: "Please input all field",
+          errMessage: `Missing paramater: ${checkObj.element}`,
         });
       } else {
         //upsert to Markdown
@@ -142,6 +133,8 @@ let saveDetailInforRoom = (inputData) => {
           roomInfor.nameHotel = inputData.nameHotel;
           roomInfor.addressHotel = inputData.addressHotel;
           roomInfor.note = inputData.note;
+          roomInfor.specialtyId = inputData.specialtyId;
+          roomInfor.hotelId = inputData.hotelId;
           await roomInfor.save();
         } else {
           //create
@@ -153,6 +146,8 @@ let saveDetailInforRoom = (inputData) => {
             nameHotel: inputData.nameHotel,
             addressHotel: inputData.addressHotel,
             note: inputData.note,
+            specialtyId: inputData.specialtyId,
+            hotelId: inputData.hotelId,
           });
         }
         resolve({
