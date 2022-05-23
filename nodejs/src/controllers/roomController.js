@@ -108,6 +108,35 @@ let getProfileRoomById = async (req, res) => {
   }
 };
 
+let getListCustomerForRoom = async (req, res) => {
+  try {
+    let info = await roomService.getListCustomerForRoom(
+      req.query.roomId,
+      req.query.date
+    );
+    return res.status(200).json(info);
+  } catch (e) {
+    console.log(e);
+    return res.status(200).json({
+      errCode: -1,
+      errMessage: "Error from server...",
+    });
+  }
+};
+
+let sendRemedy = async (req, res) => {
+  try {
+    let info = await roomService.sendRemedy(req.body);
+    return res.status(200).json(info);
+  } catch (e) {
+    console.log(e);
+    return res.status(200).json({
+      errCode: -1,
+      errMessage: "Error from server...",
+    });
+  }
+};
+
 module.exports = {
   getTopRoomHome: getTopRoomHome,
   getAllRooms: getAllRooms,
@@ -117,4 +146,6 @@ module.exports = {
   getScheduleByDate: getScheduleByDate,
   getExtraInforRoomById: getExtraInforRoomById,
   getProfileRoomById: getProfileRoomById,
+  getListCustomerForRoom: getListCustomerForRoom,
+  sendRemedy: sendRemedy,
 };

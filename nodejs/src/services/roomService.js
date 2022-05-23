@@ -1,6 +1,7 @@
 import db from "../models/index";
 require("dotenv").config();
 import _ from "lodash";
+import emailService from "../services/emailService";
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 let checkRequiredField = (inputData) => {
@@ -434,6 +435,92 @@ let getProfileRoomById = (idInput) => {
   });
 };
 
+let getListCustomerForRoom = (roomId, date) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!roomId || !date) {
+        resolve({
+          errCode: 1,
+          errMessage: "Missing parameter....",
+        });
+      } else {
+        let data = await db.Booking.findAll({
+          where: {
+            statusId: "S2",
+            roomId: roomId,
+            date: date,
+          },
+          include: [
+            {
+              model: db.User,
+              as: "customerData",
+              attributes: ["email", "firstName", "address", "gender"],
+              // include: [
+              //   {
+              //     model: db.Allcode,
+              //     as: "genderData",
+              //     attributes: ["valueEn", "valueVi"],
+              //   },
+              // ],
+            },
+            {
+              model: db.Allcode,
+              as: "timeTypeDataCustomer",
+              attributes: ["valueEn", "valueVi"],
+            },
+          ],
+          raw: false,
+          nest: true,
+        });
+        resolve({
+          errCode: 0,
+          data: data,
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let sendRemedy = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.email || !data.roomId || !data.customerId || !data.timeType) {
+        resolve({
+          errCode: 1,
+          errMessage: "Missing parameter....",
+        });
+      } else {
+        let appointment = await db.Booking.findOne({
+          where: {
+            roomId: data.roomId,
+            customerId: data.customerId,
+            timeType: data.timeType,
+            statusId: "S2",
+          },
+          raw: false,
+        });
+
+        if (appointment) {
+          appointment.statusId = "S3";
+          await appointment.save();
+        }
+
+        //send mail
+        await emailService.sendAttachment(data);
+
+        resolve({
+          errCode: 0,
+          errMessage: "Success",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   getTopRoomHome: getTopRoomHome,
   getAllRooms: getAllRooms,
@@ -444,4 +531,6 @@ module.exports = {
   getExtraInforRoomById: getExtraInforRoomById,
   getProfileRoomById: getProfileRoomById,
   checkRequiredField: checkRequiredField,
+  getListCustomerForRoom: getListCustomerForRoom,
+  sendRemedy: sendRemedy,
 };

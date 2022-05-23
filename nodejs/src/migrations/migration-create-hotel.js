@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('hotels', {
-    //   id: DataTypes.STRING,
-    // email: DataTypes.STRING,
-    // firstName: DataTypes.STRING,
-    // lastName: DataTypes.STRING,
-    // address: DataTypes.STRING,
-    // gender: DataTypes.STRING,
-    // roleid: DataTypes.STRING
+    await queryInterface.createTable("hotels", {
+      //   id: DataTypes.STRING,
+      // email: DataTypes.STRING,
+      // firstName: DataTypes.STRING,
+      // lastName: DataTypes.STRING,
+      // address: DataTypes.STRING,
+      // gender: DataTypes.STRING,
+      // roleid: DataTypes.STRING
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,28 +16,31 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       address: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      description : { 
-        type: Sequelize.TEXT
+      descriptionMarkdown: {
+        type: Sequelize.TEXT,
       },
-      image:{
-        type: Sequelize.STRING
+      descriptionHTML: {
+        type: Sequelize.TEXT,
       },
-      name:{
-        type: Sequelize.STRING
+      image: {
+        type: Sequelize.BLOB("long"),
+      },
+      name: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('hotels');
-  }
+    await queryInterface.dropTable("hotels");
+  },
 };
