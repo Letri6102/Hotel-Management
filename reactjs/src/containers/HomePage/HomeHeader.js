@@ -115,10 +115,10 @@ class HomeHeader extends Component {
               </div>
               <div className="search">
                 <i className="fas fa-search"></i>
-                <input type="text" placeholder="Tìm khách sạn" />
+                <input type="text" placeholder="Find a hotel" />
               </div>
             </div>
-            <div className="content-down">
+            {/* <div className="content-down">
               <div className="options">
                 <div className="option-child">
                   <div className="icon-child">
@@ -153,7 +153,7 @@ class HomeHeader extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
       </React.Fragment>

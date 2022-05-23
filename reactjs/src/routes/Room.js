@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import ManageSchedule from "../containers/System/Room/ManageSchedule";
 import Header from "../containers/Header/Header";
+import ManageCustomer from "../containers/System/Room/ManageCustomer";
 class Room extends Component {
   render() {
     const { isLoggedIn } = this.props;
@@ -13,6 +14,7 @@ class Room extends Component {
         <div className="system-list">
           <Switch>
             <Route path="/room/manage-schedule" component={ManageSchedule} />
+            <Route path="/room/manage-customer" component={ManageCustomer} />
           </Switch>
         </div>
       </React.Fragment>

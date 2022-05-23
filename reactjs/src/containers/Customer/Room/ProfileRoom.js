@@ -6,6 +6,7 @@ import { LANGUAGES } from "../../../utils/constant";
 import NumberFormat from "react-number-format";
 import moment from "moment";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 class ProfileRoom extends Component {
   constructor(props) {
@@ -67,7 +68,14 @@ class ProfileRoom extends Component {
   };
   render() {
     let { dataProfile } = this.state;
-    let { language, isShowDescriptionRoom, dataTime } = this.props;
+    let {
+      language,
+      isShowDescriptionRoom,
+      dataTime,
+      isShowLinkDetail,
+      isShowPrice,
+      roomId,
+    } = this.props;
 
     // console.log("check state dataProfile ", this.state);
     // console.log("check datatime", dataTime.timeTypeData);
@@ -107,31 +115,38 @@ class ProfileRoom extends Component {
             </div>
           </div>
         </div>
-        <div className="price">
-          <FormattedMessage id="customer.booking-modal.price" />
-          {dataProfile &&
-            dataProfile.Room_Infor &&
-            language === LANGUAGES.VI && (
-              <NumberFormat
-                className="currency"
-                value={dataProfile.Room_Infor.priceTypeData.valueVi}
-                displayType={"text"}
-                thousandSeparator={true}
-                suffix={" VND"}
-              />
-            )}
-          {dataProfile &&
-            dataProfile.Room_Infor &&
-            language === LANGUAGES.EN && (
-              <NumberFormat
-                className="currency"
-                value={dataProfile.Room_Infor.priceTypeData.valueEn}
-                displayType={"text"}
-                thousandSeparator={true}
-                suffix={" $"}
-              />
-            )}
-        </div>
+        {isShowLinkDetail === true && (
+          <div className="view-detail-room">
+            <Link to={`/detail-room/${roomId}`}>Xem thêm</Link>
+          </div>
+        )}
+        {isShowPrice === true && (
+          <div className="price">
+            <FormattedMessage id="customer.booking-modal.price" />
+            {dataProfile &&
+              dataProfile.Room_Infor &&
+              language === LANGUAGES.VI && (
+                <NumberFormat
+                  className="currency"
+                  value={dataProfile.Room_Infor.priceTypeData.valueVi}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  suffix={" VND"}
+                />
+              )}
+            {dataProfile &&
+              dataProfile.Room_Infor &&
+              language === LANGUAGES.EN && (
+                <NumberFormat
+                  className="currency"
+                  value={dataProfile.Room_Infor.priceTypeData.valueEn}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  suffix={" $"}
+                />
+              )}
+          </div>
+        )}
       </div>
     );
   }

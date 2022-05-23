@@ -1,0 +1,11 @@
+.hotel-child{
+    cursor: pointer;
+
+    .hotel-name{
+        padding: 10px 0;
+
+        &:hover{
+            color: #4c6ef5;
+        }
+    }
+}

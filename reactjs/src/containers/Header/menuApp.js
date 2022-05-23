@@ -68,8 +68,13 @@ export const roomMenu = [
     name: "menu.admin.manage-user",
     menus: [
       {
+        //quản lý phòng
         name: "menu.room.manage-schedule",
         link: "/room/manage-schedule",
+      },
+      {
+        name: "menu.room.manage-customer",
+        link: "/room/manage-customer",
       },
     ],
   },

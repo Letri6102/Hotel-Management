@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+// import "./HomeFooter.css";
 
 class Footer extends Component {
   render() {

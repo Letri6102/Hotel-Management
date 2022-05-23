@@ -84,6 +84,28 @@ const getAllDetailSpecialtyById = (data) => {
     `api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`
   );
 };
+
+const createNewHotel = (data) => {
+  return axios.post("api/create-new-hotel", data);
+};
+
+const getAllHotel = () => {
+  return axios.get("api/get-hotel");
+};
+
+const getAllDetailHotelById = (data) => {
+  return axios.get(`api/get-detail-hotel-by-id?id=${data.id}`);
+};
+
+const getAllCustomerForRoom = (data) => {
+  return axios.get(
+    `api/get-list-customer-for-room?roomId=${data.roomId}&date=${data.date}`
+  );
+};
+
+const postSendRemedy = (data) => {
+  return axios.post("api/send-remedy", data);
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -104,4 +126,9 @@ export {
   createNewSpecialty,
   getAllSpecialty,
   getAllDetailSpecialtyById,
+  createNewHotel,
+  getAllHotel,
+  getAllDetailHotelById,
+  getAllCustomerForRoom,
+  postSendRemedy,
 };

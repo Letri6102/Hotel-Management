@@ -94,6 +94,15 @@ class ManageRoom extends Component {
           result.push(object);
         });
       }
+
+      if ((type = "HOTEL")) {
+        inputData.map((item, index) => {
+          let object = {};
+          object.label = item.name;
+          object.value = item.id;
+          result.push(object);
+        });
+      }
     }
     return result;
   };
@@ -107,7 +116,7 @@ class ManageRoom extends Component {
     }
 
     if (prevProps.allRequiredRoomInfor !== this.props.allRequiredRoomInfor) {
-      let { resPayment, resPrice, resProvince, resSpecialty } =
+      let { resPayment, resPrice, resProvince, resSpecialty, resHotel } =
         this.props.allRequiredRoomInfor;
 
       let dataSelectPrice = this.buildDataInputSelect(resPrice, "PRICE");
@@ -120,6 +129,7 @@ class ManageRoom extends Component {
         resSpecialty,
         "SPECIALTY"
       );
+      let dataSelectHotel = this.buildDataInputSelect(resHotel, "HOTEL");
 
       console.log(
         "check data new",
@@ -189,7 +199,8 @@ class ManageRoom extends Component {
 
   handleChangeSelect = async (selectedOption) => {
     this.setState({ selectedOption });
-    let { listPayment, listPrice, listProvince, listSpecialty } = this.state;
+    let { listPayment, listPrice, listProvince, listSpecialty, listHotel } =
+      this.state;
     let res = await getDetailInforRooms(selectedOption.value);
     if (res && res.errCode === 0 && res.data && res.data.Markdown) {
       let markdown = res.data.Markdown;
@@ -201,10 +212,13 @@ class ManageRoom extends Component {
         priceId = "",
         provinceId = "",
         specialtyId = "",
+        hotelId = "",
+        //----------
         selectedPayment = "",
         selectedPrice = "",
         selectedProvince = "",
-        selectedSpecialty = "";
+        selectedSpecialty = "",
+        selectedHotel = "";
 
       if (res.data.Room_Infor) {
         addressHotel = res.data.Room_Infor.addressHotel;
@@ -214,6 +228,7 @@ class ManageRoom extends Component {
         priceId = res.data.Room_Infor.priceId;
         provinceId = res.data.Room_Infor.provinceId;
         specialtyId = res.data.Room_Infor.specialtyId;
+        hotelId = res.data.Room_Infor.hotelId;
 
         selectedPayment = listPayment.find((item) => {
           return item && item.value === paymentId;
@@ -226,6 +241,9 @@ class ManageRoom extends Component {
         });
         selectedSpecialty = listSpecialty.find((item) => {
           return item && item.value === specialtyId;
+        });
+        selectedHotel = listHotel.find((item) => {
+          return item && item.value === hotelId;
         });
       }
 
@@ -241,6 +259,7 @@ class ManageRoom extends Component {
         selectedPrice: selectedPrice,
         selectedProvince: selectedProvince,
         selectedSpecialty: selectedSpecialty,
+        selectedHotel: selectedHotel,
       });
     } else {
       this.setState({
@@ -255,6 +274,7 @@ class ManageRoom extends Component {
         selectedPrice: "",
         selectedProvince: "",
         selectedSpecialty: "",
+        selectedHotel: "",
       });
     }
   };

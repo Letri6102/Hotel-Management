@@ -9,6 +9,7 @@ import {
   getAllRooms,
   saveDetailRoomService,
   getAllSpecialty,
+  getAllHotel,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -306,6 +307,7 @@ export const getRequiredRoomInfor = () => {
       let resPayment = await getAllCodeService("PAYMENT");
       let resProvince = await getAllCodeService("PROVINCE");
       let resSpecialty = await getAllSpecialty();
+      let resHotel = await getAllHotel();
 
       if (
         resPrice &&
@@ -315,13 +317,16 @@ export const getRequiredRoomInfor = () => {
         resProvince &&
         resProvince.errCode === 0 &&
         resSpecialty &&
-        resSpecialty.errCode === 0
+        resSpecialty.errCode === 0 &&
+        resHotel &&
+        resHotel.errCode === 0
       ) {
         let data = {
           resPrice: resPrice.data,
           resPayment: resPayment.data,
           resProvince: resProvince.data,
           resSpecialty: resSpecialty.data,
+          resHotel: resHotel.data,
         };
         dispatch(fetchRequiredRoomInforSuccess(data));
       } else {

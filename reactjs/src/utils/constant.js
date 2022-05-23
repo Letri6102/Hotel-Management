@@ -7,6 +7,7 @@ export const path = {
   DETAIL_ROOM: "/detail-room/:id",
   VERIFY_EMAIL_BOOKING: "/verify-booking",
   DETAIL_SPECIALTY: "/detail-specialty/:id",
+  DETAIL_HOTEL: "/detail-hotel/:id",
 };
 
 export const LANGUAGES = {

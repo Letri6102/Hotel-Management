@@ -22,6 +22,7 @@ import DetailRoom from "./Customer/Room/DetailRoom";
 import Room from "../routes/Room";
 import VerifyEmail from "./Customer/VerifyEmail";
 import DetailSpecialty from "./Customer/Specialty/DetailSpecialty";
+import DetailHotel from "./Customer/Hotel/DetailHotel";
 class App extends Component {
   handlePersistorState = () => {
     const { persistor } = this.props;
@@ -75,6 +76,7 @@ class App extends Component {
                     path={path.DETAIL_SPECIALTY}
                     component={DetailSpecialty}
                   />
+                  <Route path={path.DETAIL_HOTEL} component={DetailHotel} />
                 </Switch>
               </CustomScrollbars>
             </span>
