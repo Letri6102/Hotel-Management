@@ -11,6 +11,7 @@ import About from "./Section/About";
 import "./HomePage.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import HotelIcon from "./Section/HotelIcon";
 
 class HomePage extends Component {
   render() {
@@ -24,6 +25,7 @@ class HomePage extends Component {
     return (
       <div>
         <HomeHeader isShowBanner={true} />
+        <HotelIcon settings={settings} />
         <Specialty settings={settings} />
         <HotelBranch settings={settings} />
         <FeatureHotel settings={settings} />

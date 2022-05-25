@@ -132,6 +132,7 @@ class RoomSchedule extends Component {
       <>
         <div className="room-schedule-container">
           <div className="all-schedule">
+            <span>Ngày nhận phòng: </span>
             <select onChange={(event) => this.handleOnChangeSelect(event)}>
               {allDays &&
                 allDays.length > 0 &&
@@ -144,6 +145,22 @@ class RoomSchedule extends Component {
                 })}
             </select>
           </div>
+          {/* TEST */}
+          <div className="all-schedule ">
+            <span>Ngày trả phòng: </span>
+            <select>
+              {allDays &&
+                allDays.length > 0 &&
+                allDays.map((item, index) => {
+                  return (
+                    <option key={index} value={item.value}>
+                      {item.label}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          {/* Test */}
           <div className="all-available-time">
             <div className="text-calendar">
               <i className="fas fa-calendar-alt">

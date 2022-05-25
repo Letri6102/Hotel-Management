@@ -61,25 +61,29 @@ class FeatureHotel extends Component {
                       "binary"
                     );
                   }
-                  let nameVi = ` ${item.firstName}, ${item.lastName}`;
-                  let nameEn = `${item.lastName}, ${item.firstName}`;
+                  let nameVi = ` ${item.firstName} ${item.lastName}`;
+                  let nameEn = `${item.lastName} ${item.firstName}`;
                   return (
-                    <div className="section-customize" key={index}>
-                      <Link to={`detail-room/${43}`}>
-                        <div className="customize-border">
-                          <div className="outer-bg">
-                            <div
-                              className="bg-image section-feature-hotel"
-                              style={{ backgroundImage: `url(${imageBase64})` }}
-                            />
-                          </div>
-                          <div className="position text-center">
-                            <div>
-                              {language === LANGUAGES.VI ? nameVi : nameEn}{" "}
-                            </div>
+                    <div
+                      className="section-customize"
+                      key={index}
+                      onClick={() => this.handleViewDetailRoom(item)}
+                    >
+                      {/* <Link to={`/detail-room?/${arrRooms.id}`}> */}
+                      <div className="customize-border">
+                        <div className="outer-bg">
+                          <div
+                            className="bg-image section-feature-hotel"
+                            style={{ backgroundImage: `url(${imageBase64})` }}
+                          />
+                        </div>
+                        <div className="position text-center">
+                          <div>
+                            {language === LANGUAGES.VI ? nameVi : nameEn}{" "}
                           </div>
                         </div>
-                      </Link>
+                      </div>
+                      {/* </Link> */}
                     </div>
                   );
                 })}

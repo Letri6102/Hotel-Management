@@ -24,7 +24,7 @@ class Header extends Component {
     let menu = [];
     if (userInfo && !_.isEmpty(userInfo)) {
       let role = userInfo.roleId;
-      if (role === USER_ROLE.ADMIN) {
+      if (role === USER_ROLE.ADMIN || role === USER_ROLE.ROOM) {
         menu = adminMenu;
       } else if (role === USER_ROLE.ROOM) {
         menu = roomMenu;

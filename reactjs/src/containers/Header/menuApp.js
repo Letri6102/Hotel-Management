@@ -12,29 +12,25 @@ export const adminMenu = [
         link: "/system/user-redux",
       },
 
-      {
-        name: "menu.admin.manage-hotel",
-        link: "/system/user-hotel",
-      },
+      // {
+      //   name: "menu.admin.manage-hotel",
+      //   link: "/system/user-hotel",
+      // },
 
-      {
-        name: "menu.admin.manage-admin",
-        link: "/system/user-admin",
-      },
-      {
-        name: "menu.admin.manage-room",
-        link: "/system/manage-room",
-      },
-      {
-        name: "menu.room.manage-schedule",
-        link: "/room/manage-schedule",
-      },
+      // {
+      //   name: "menu.admin.manage-admin",
+      //   link: "/system/user-admin",
+      // },
     ],
   },
   {
     //quản lý phòng khách sạn
     name: "menu.admin.specialty",
-    menu: [
+    menus: [
+      {
+        name: "menu.admin.manage-room",
+        link: "/system/manage-room",
+      },
       {
         name: "menu.admin.manage-specialty",
         link: "/system/manage-specialty",
@@ -44,20 +40,25 @@ export const adminMenu = [
   {
     //quản lý chi nhánh
     name: "menu.admin.branch",
-    menu: [
+    menus: [
       {
         name: "menu.admin.manage-branch",
-        link: "/system/manage-branch",
+        link: "/system/manage-hotel",
       },
     ],
   },
   {
-    //quản lý cẩm nang
-    name: "menu.admin.handbook",
-    menu: [
+    //quản lý lịch đặt phòng
+    name: "menu.admin.appointment",
+    menus: [
       {
-        name: "menu.admin.manage-handbook",
-        link: "/system/manage-handbook",
+        //quản lý phòng
+        name: "menu.room.manage-schedule",
+        link: "/room/manage-schedule",
+      },
+      {
+        name: "menu.room.manage-customer",
+        link: "/room/manage-customer",
       },
     ],
   },

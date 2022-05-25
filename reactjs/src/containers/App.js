@@ -64,7 +64,7 @@ class App extends Component {
                   />
                   <Route
                     path={"/room/"}
-                    component={userIsAuthenticated(Room)}
+                    component={userIsAuthenticated(System)}
                   />
                   <Route path={path.HOMEPAGE} component={HomePage} />
                   <Route path={path.DETAIL_ROOM} component={DetailRoom} />

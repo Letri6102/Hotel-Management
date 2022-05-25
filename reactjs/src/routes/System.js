@@ -7,7 +7,8 @@ import Header from "../containers/Header/Header";
 import ManageRoom from "../containers/System/Admin/ManageRoom";
 import ManageSpecialty from "../containers/System/Specialty/ManageSpecialty";
 import ManageHotel from "../containers/System/Hotel/ManageHotel";
-
+import ManageSchedule from "../containers/System/Room/ManageSchedule";
+import ManageCustomer from "../containers/System/Room/ManageCustomer";
 class System extends Component {
   render() {
     const { systemMenuPath, isLoggedIn } = this.props;
@@ -26,6 +27,8 @@ class System extends Component {
                 component={ManageSpecialty}
               />
               <Route path="/system/manage-hotel" component={ManageHotel} />
+              <Route path="/room/manage-schedule" component={ManageSchedule} />
+              <Route path="/room/manage-customer" component={ManageCustomer} />
               <Route
                 component={() => {
                   return <Redirect to={systemMenuPath} />;

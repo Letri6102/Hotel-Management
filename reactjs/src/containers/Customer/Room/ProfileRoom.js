@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { getProfileRoomById } from "../../../services/userService";
+import {
+  getProfileRoomById,
+  getDetailInforRooms,
+} from "../../../services/userService";
 import { LANGUAGES } from "../../../utils/constant";
 import NumberFormat from "react-number-format";
 import moment from "moment";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import "./ProfileRoom.scss";
 
 class ProfileRoom extends Component {
   constructor(props) {
@@ -22,6 +26,25 @@ class ProfileRoom extends Component {
       dataProfile: data,
     });
   }
+  // async componentDidMount() {
+  //   if (
+  //     this.props.match &&
+  //     this.props.match.params &&
+  //     this.props.match.params.id
+  //   ) {
+  //     let id = this.props.match.params.id;
+  //     this.setState({
+  //       currentRoomId: id,
+  //     });
+
+  //     let res = await getDetailInforRooms(id);
+  //     if (res && res.errCode === 0) {
+  //       this.setState({
+  //         detailRoom: res.data,
+  //       });
+  //     }
+  //   }
+  // }
 
   getInforRoom = async (id) => {
     let result = {};
@@ -77,7 +100,7 @@ class ProfileRoom extends Component {
       roomId,
     } = this.props;
 
-    // console.log("check state dataProfile ", this.state);
+    console.log("check state dataProfile ", this.state);
     // console.log("check datatime", dataTime.timeTypeData);
     let nameVi = "",
       nameEn = "";

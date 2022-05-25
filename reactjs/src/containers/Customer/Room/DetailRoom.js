@@ -7,6 +7,8 @@ import { getDetailInforRooms } from "../../../services/userService";
 import "./DetailRoom.scss";
 import RoomSchedule from "./RoomSchedule";
 import RoomExtraInfor from "./RoomExtraInfor";
+import LikeAndShare from "../SocialPlugin/LikeAndShare";
+import Comment from "../SocialPlugin/Comment";
 
 class DetailRoom extends Component {
   constructor(props) {
@@ -44,7 +46,7 @@ class DetailRoom extends Component {
     let nameVi = "",
       nameEn = "";
     if (detailRoom && detailRoom.positionData) {
-      nameVi = ` ${detailRoom.lastName} ${detailRoom.firstName}`;
+      nameVi = ` ${detailRoom.lastName} ${detailRoom.firstName} `;
       nameEn = ` ${detailRoom.lastName} ${detailRoom.firstName}`;
     }
     return (

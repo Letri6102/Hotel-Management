@@ -49,6 +49,12 @@
             "manage-schedule": "Manage Room's schedule"
         }
     },
+    "homepage":{
+        "specialty-poplular":"Specialty Popular Room",
+        "more-infor":"More info",
+        "title1":"When visiting Nha Trang, you'll feel right at home at Vinpearl Nha Trang Bay Resort & Villas, which offers quality accommodation and great service. Situated only 10.4 km from the city center, guests are well located to enjoy the town's attractions and activities. With its convenient location, the hotel offers easy access to the city's must-see destinations.",
+        "title2":"Vinpearl Nha Trang Bay Resort & Villas offers impeccable service and all the essential amenities to invigorate travelers. Free Wi-Fi in all rooms, 24-hour front desk, 24-hour room service, facilities for disabled guests, luggage storage are just a few of the facilities that set Vinpearl Nha Trang Bay Resort & Villas apart from other hotels in the city."
+    },
     "manage-user":{
         "add": "Add a new user",
         "email":"Email",

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-// import "./HomeFooter.css";
+import "./HomeFooter.scss";
 
 class Footer extends Component {
   render() {
@@ -27,7 +27,7 @@ class Footer extends Component {
                 <li class="footer_item">
                   <a href="" class="footer_item-link">
                     <i class="footer_item-icon fa-solid fa-envelope"></i>
-                    info@mwchotel.com
+                    Beta@gmail.com
                   </a>
                 </li>
               </ul>
@@ -117,7 +117,7 @@ class Footer extends Component {
 
         <div class="footer_bottom">
           <div class="grid">
-            <p class="footer_text">Copyright © 2022 MWC</p>
+            <p class="footer_text">Copyright by BetaTeam © 2022</p>
           </div>
         </div>
       </footer>

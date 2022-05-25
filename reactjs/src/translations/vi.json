@@ -40,13 +40,18 @@
             "crud-redux": "Thêm mới người dùng",
             "manage-hotel": "Quản lý khách sạn",
             "manage-admin": "Quản lý Admin",
-            "specialty": "Hạng phòng",
+            "specialty": "Hạng phòng", 
             "branch": "Chi nhánh",
             "handbook": "Cẩm nang",
-            "manage-room":"Quản lý phòng"
+            "manage-room":"Quản lý phòng",
+            "appointment":"Quản lý lịch đặt phòng",
+            "manage-specialty":"Quản lý hạng phòng",
+            "manage-branch":"Quản lý chi nhánh"
+            
         },
         "room":{
-            "manage-schedule": "Quản lý lịch đặt phòng"
+            "manage-schedule": "Quản lý lịch check-in phòng",
+            "manage-customer":"Lịch đặt phòng của khách hàng"
         }
     },
     "manage-user":{
@@ -64,7 +69,7 @@
         "position":"Vị trí",
         "admin":"Quản lý",
         "user":"Người dùng",
-        "role": "Vai trò",
+        "role": "Chức vụ",
         "image":"Hình ảnh",
         "imageUpload":"Tải ảnh",
         "save":"Lưu thông tin",
@@ -72,17 +77,19 @@
     },
     "homepage":{
         "specialty-poplular":"Các loại phòng phổ biến",
-        "more-infor":"Xem thêm"
+        "more-infor":"Xem thêm",
+        "title1": "Khi đến thăm Nha Trang, bạn sẽ cảm thấy như đang ở nhà tại Vinpearl Nha Trang Bay Resort & Villas, nơi cung cấp chỗ ở chất lượng và dịch vụ tuyệt vời. Chỉ cách trung tâm thành phố 10,4 km, du khách có thể tận hưởng vị trí thuận tiện để tận hưởng các điểm tham quan và hoạt động của thị trấn. Với vị trí thuận lợi, khách sạn dễ dàng tiếp cận các điểm tham quan không thể bỏ qua của thành phố.",
+        "title2": "Vinpearl Nha Trang Bay Resort & Villas mang lại dịch vụ hoàn hảo, làm hài lòng cả những vị khách khó tính nhất với những tiện nghi sang trọng tuyệt vời. Miễn phí wifi tất cả các phòng, quầy lễ tân 24 giờ, phục vụ phòng 24 giờ, tiện nghi cho khách khuyết tật, giữ hành lý chỉ là một vài trong số những thiết bị được lắp đặt tại Vinpearl Nha Trang Bay Resort & Villas so với những khách sạn khác trong thành phố."
     },
     "manage-schedule":{
-        "title":"Quản lý lịch đặt phòng",
+        "title":"Quản lý lịch check-in phòng",
         "choose-room":"Chọn phòng",
         "choose-date":"Chọn ngày nhận phòng",
         "save":"Lưu thông tin"
     },
     "customer":{
         "detail-room":{
-            "schedule":"Lịch đặt phòng",
+            "schedule":"Giờ check-in",
             "no-schedule":"Phòng này hiện đang có người đặt trong thời gian này, vui lòng chọn thời gian khác",
             "choose":"Chọn",
             "book-free":" và đặt phòng (miễn phí)"

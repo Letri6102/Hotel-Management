@@ -1,6 +1,6 @@
 import db from "../models/index";
 require("dotenv").config();
-import _ from "lodash";
+import _, { isBuffer } from "lodash";
 import emailService from "../services/emailService";
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
@@ -37,10 +37,10 @@ let checkRequiredField = (inputData) => {
 let getTopRoomHome = (limitInput) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let users = await db.User.findAll({
+      let rooms = await db.User.findAll({
         limit: limitInput,
         where: { roleId: "R2" },
-        // order: [["createdAt", "DESC"]],
+        order: [["createdAt", "DESC"]],
         attributes: {
           exclude: ["password"],
         },
@@ -50,18 +50,18 @@ let getTopRoomHome = (limitInput) => {
             as: "positionData",
             attributes: ["valueEn", "valueVi"],
           },
-          {
-            model: db.Allcode,
-            as: "genderData",
-            attributes: ["valueEn", "valueVi"],
-          },
+          // {
+          //   model: db.Allcode,
+          //   as: "genderData",
+          //   attributes: ["valueEn", "valueVi"],
+          // },
         ],
         raw: true,
         nest: true,
       });
       resolve({
         errCode: 0,
-        data: users,
+        data: rooms,
       });
     } catch (e) {
       reject(e);
@@ -420,7 +420,7 @@ let getProfileRoomById = (idInput) => {
           nest: true,
         });
         if (data && data.image) {
-          data.image = new Buffer(data.image, "base64").toString("binary");
+          data.image = Buffer.from(data.image, "base64").toString("binary");
         }
         if (!data) data = {};
 
