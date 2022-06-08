@@ -36,24 +36,45 @@ class HotelBranch extends Component {
         <div className="section-container">
           <div className="section-header">
             <span className="title-section">Chi nhánh</span>
-            {/* <button className="btn-section">Xem thêm</button> */}
           </div>
-          <div className="section-body">
+          <div className="slide">
             <Slider {...this.props.settings}>
               {dataHotel &&
                 dataHotel.length > 0 &&
                 dataHotel.map((item, index) => {
                   return (
                     <div
-                      className="section-customize hotel-child"
-                      key={index}
                       onClick={() => this.handleViewDetailHotel(item)}
+                      className="my-2 mx-auto p-relative bg-white shadow-1 blue-hover"
+                      key={index}
+                      style={{ width: "360px", overflow: "hidden" }}
                     >
-                      <div
-                        className="bg-image section-hotel-branch"
-                        style={{ backgroundImage: `url(${item.image})` }}
+                      <img
+                        src={item.image}
+                        alt="Hotel"
+                        class="d-block w-full"
                       />
-                      <div className="hotel-name">{item.name}</div>
+                      <div class="px-2 py-2">
+                        <p class="mb-0 small font-weight-medium text-uppercase mb-1 text-muted lts-2px">
+                          Travel
+                        </p>
+
+                        <h1 class="ff-serif font-weight-normal text-black card-heading mt-0 mb-1">
+                          {item.name}
+                        </h1>
+
+                        <p class="mb-1">
+                          Summer is coming to a close just around the corner.
+                          But it's not too late to squeeze in another weekend
+                          trip &hellip;
+                        </p>
+                      </div>
+                      <div
+                        onClick={() => this.handleViewDetailHotel(item)}
+                        class="text-uppercase d-inline-block font-weight-medium lts-2px ml-2 mb-2 text-center styled-link"
+                      >
+                        <FormattedMessage id="homepage.more-infor" />
+                      </div>
                     </div>
                   );
                 })}

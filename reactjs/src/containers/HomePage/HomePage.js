@@ -25,12 +25,12 @@ class HomePage extends Component {
     return (
       <div>
         <HomeHeader isShowBanner={true} />
-        <HotelIcon settings={settings} />
+
         <Specialty settings={settings} />
         <HotelBranch settings={settings} />
         <FeatureHotel settings={settings} />
-        {/* <HandBook settings={settings} /> */}
         <About />
+        <HotelIcon settings={settings} />
         <HomeFooter />
       </div>
     );

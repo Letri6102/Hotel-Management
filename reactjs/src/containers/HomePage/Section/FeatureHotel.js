@@ -44,11 +44,6 @@ class FeatureHotel extends Component {
             <span className="title-section">
               <FormattedMessage id="homeheader.top-room" />
             </span>
-            <button className="btn-section">
-              <Link to={`detail-room/${43}`}>
-                <FormattedMessage id="homeheader.more-info" />
-              </Link>
-            </button>
           </div>
           <div className="section-body">
             <Slider {...this.props.settings}>
@@ -61,7 +56,7 @@ class FeatureHotel extends Component {
                       "binary"
                     );
                   }
-                  let nameVi = ` ${item.firstName} ${item.lastName}`;
+                  let nameVi = `${item.lastName} ${item.firstName}`;
                   let nameEn = `${item.lastName} ${item.firstName}`;
                   return (
                     <div

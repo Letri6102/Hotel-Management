@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
-import "./Specialty.scss";
+import "./HotelBranch.scss";
 import { getAllSpecialty } from "../../../services/userService";
 import { withRouter } from "react-router";
 
@@ -33,32 +33,44 @@ class Specialty extends Component {
     let { dataSpecialty } = this.state;
     console.log(dataSpecialty);
     return (
-      <div className="section-share section-specialty">
+      <div className="section-share section-hotel-branch">
         <div className="section-container">
           <div className="section-header">
             <span className="title-section">
               <FormattedMessage id="homepage.specialty-poplular" />
             </span>
-            <button className="btn-section">
-              <FormattedMessage id="homepage.more-infor" />
-            </button>
           </div>
-          <div className="section-body">
+          <div className="slide">
             <Slider {...this.props.settings}>
               {dataSpecialty &&
                 dataSpecialty.length > 0 &&
                 dataSpecialty.map((item, index) => {
                   return (
                     <div
-                      className="section-customize specialty-child"
+                      className="my-2 mx-auto p-relative bg-white shadow-1 blue-hover"
                       key={index}
-                      onClick={() => this.handleViewDetailSpecialty(item)}
+                      style={{ width: "360px", overflow: "hidden" }}
                     >
-                      <div
-                        className="bg-image section-specialty"
-                        style={{ backgroundImage: `url(${item.image})` }}
-                      ></div>
-                      <div className="specialty-name">{item.name}</div>
+                      <img
+                        src={item.image}
+                        alt="Hotel"
+                        class="d-block w-full"
+                      />
+                      <div class="px-2 py-2">
+                        <p class="mb-0 small font-weight-medium text-uppercase mb-1 text-muted lts-2px">
+                          Specialty
+                        </p>
+
+                        <h1 class="ff-serif font-weight-normal text-black card-heading mt-0 mb-1">
+                          {item.name}
+                        </h1>
+                        <div
+                          onClick={() => this.handleViewDetailSpecialty(item)}
+                          class="text-uppercase d-inline-block font-weight-medium lts-2px ml-2 mb-2 text-center styled-link"
+                        >
+                          Xem thêm..
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
